@@ -92,7 +92,7 @@ public class DriveSubsystem extends SubsystemBase {
   }
 
   /**
-   * Resets the odometry to the specified pose.
+   * Resets the odometry to the specified pose. 
    *
    * @param pose The pose to which to set the odometry.
    */
@@ -190,13 +190,19 @@ public class DriveSubsystem extends SubsystemBase {
 
   /**
    * Sets the wheels into an X formation to prevent movement.
+   *      m_frontLeft.setDesiredState(new SwerveModuleState(0, Rotation2d.fromDegrees(45)));
    */
   public void setX() {
-    m_frontLeft.setDesiredState(new SwerveModuleState(0, Rotation2d.fromDegrees(45)));
-    m_frontRight.setDesiredState(new SwerveModuleState(0, Rotation2d.fromDegrees(-45)));
-    m_rearLeft.setDesiredState(new SwerveModuleState(0, Rotation2d.fromDegrees(-45)));
-    m_rearRight.setDesiredState(new SwerveModuleState(0, Rotation2d.fromDegrees(45)));
-  }
+     m_frontLeft.setDesiredState(new SwerveModuleState(0, Rotation2d.fromDegrees(45)));
+     m_frontRight.setDesiredState(new SwerveModuleState(0, Rotation2d.fromDegrees(-45)));
+     m_rearLeft.setDesiredState(new SwerveModuleState(0, Rotation2d.fromDegrees(-45)));
+     m_rearRight.setDesiredState(new SwerveModuleState(0, Rotation2d.fromDegrees(45)));
+   }
+  //    m_frontLeft.setDesiredState(new SwerveModuleState(0, Rotation2d.fromRadians(.785)));
+  //  m_frontRight.setDesiredState(new SwerveModuleState(0, Rotation2d.fromRadians(-.785)));
+  // m_rearLeft.setDesiredState(new SwerveModuleState(0, Rotation2d.fromRadians(-.785)));
+  //  m_rearRight.setDesiredState(new SwerveModuleState(0, Rotation2d.fromRadians(.785)));
+  //}
 
   /**
    * Sets the swerve ModuleStates.
