@@ -64,6 +64,14 @@ public final class Constants {
     public static final int kFrontRightDrivingCanId = 7;
     public static final int kFrontRightTurningCanId = 8; //Zero offset: 0.515
 
+    public static final int kArmPivotRightCanId = 9;
+    public static final int kArmPivotLeftCanId = 10;
+
+    public static final int kFlyWheelTopCanId = 11;
+    public static final int kFlyWheelBottomCanId = 12;
+    
+    public static final int kIntakeCanId = 13;
+
     public static final boolean kGyroReversed = false;
   }
 
@@ -122,9 +130,24 @@ public final class Constants {
     public static final int kTurningMotorCurrentLimit = 20; // amps
   }
 
+    //     /** Represents a digital button on an XboxController. */
+    //     public enum Button {
+    //       kLeftBumper(5),
+    //       kRightBumper(6),
+    //       kLeftStick(9),
+    //       kRightStick(10),
+    //       kA(1),
+    //       kB(2),
+    //       kX(3),
+    //       kY(4),
+    //       kBack(7),
+    //       kStart(8);
+
   public static final class OIConstants {
     public static final int kDriverControllerPort = 0;
     public static final double kDriveDeadband = 0.17;
+
+    public static final int kOperatorControllerPort = 1;
   }
 
   public static final class AutoConstants {
