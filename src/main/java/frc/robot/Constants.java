@@ -46,23 +46,23 @@ public final class Constants {
         new Translation2d(-kWheelBase / 2, -kTrackWidth / 2));
 
     // Angular offsets of the modules relative to the chassis in radians
-    public static final double kFrontLeftChassisAngularOffset = 0; 
-    public static final double kFrontRightChassisAngularOffset = 3.14; //flips the motor
-    public static final double kBackLeftChassisAngularOffset = 0; 
+    public static final double kFrontLeftChassisAngularOffset = 0;
+    public static final double kFrontRightChassisAngularOffset = 3.14; // flips the motor
+    public static final double kBackLeftChassisAngularOffset = 0;
     public static final double kBackRightChassisAngularOffset = 3.14; // flips the motor
 
     // SPARK MAX CAN IDs
     public static final int kFrontLeftDrivingCanId = 1;
-    public static final int kFrontLeftTurningCanId = 2; //Zero offset: 0.505
+    public static final int kFrontLeftTurningCanId = 2; // Zero offset: 0.505
 
     public static final int kRearLeftDrivingCanId = 3;
-    public static final int kRearLeftTurningCanId = 4; //Zero offset: 0.09
+    public static final int kRearLeftTurningCanId = 4; // Zero offset: 0.09
 
     public static final int kRearRightDrivingCanId = 5;
-    public static final int kRearRightTurningCanId = 6; //Zero offset: 0.445
+    public static final int kRearRightTurningCanId = 6; // Zero offset: 0.445
 
     public static final int kFrontRightDrivingCanId = 7;
-    public static final int kFrontRightTurningCanId = 8; //Zero offset: 0.515
+    public static final int kFrontRightTurningCanId = 8; // Zero offset: 0.515
 
     public static final int kArmPivotRightCanId = 9;
     public static final int kArmPivotLeftCanId = 10;
@@ -81,7 +81,7 @@ public final class Constants {
     // This changes the drive speed of the module (a pinion gear with more teeth
     // will result in a
     // robot that drives faster).
-    //public static final int kDrivingMotorPinionTeeth = 14;
+    // public static final int kDrivingMotorPinionTeeth = 14;
 
     // Invert the turning encoder, since the output shaft rotates in the opposite
     // direction of
@@ -94,7 +94,8 @@ public final class Constants {
     public static final double kWheelCircumferenceMeters = kWheelDiameterMeters * Math.PI;
     // 45 teeth on the wheel's bevel gear, 22 teeth on the first-stage spur gear, 15
     // teeth on the bevel pinion
-    public static final double kDrivingMotorReduction = 6.122; //previously (45.0 * 22) / (kDrivingMotorPinionTeeth * 15)
+    public static final double kDrivingMotorReduction = 6.122; // previously (45.0 * 22) / (kDrivingMotorPinionTeeth *
+                                                               // 15)
     public static final double kDriveWheelFreeSpeedRps = (kDrivingMotorFreeSpeedRps * kWheelCircumferenceMeters)
         / kDrivingMotorReduction;
 
@@ -103,7 +104,7 @@ public final class Constants {
     public static final double kDrivingEncoderVelocityFactor = ((kWheelDiameterMeters * Math.PI)
         / kDrivingMotorReduction) / 60.0; // meters per second
 
-    public static final double kTurningEncoderPositionFactor = (2 * Math.PI); // radians 
+    public static final double kTurningEncoderPositionFactor = (2 * Math.PI); // radians
     public static final double kTurningEncoderVelocityFactor = (2 * Math.PI) / 60.0; // radians per second
 
     public static final double kTurningEncoderPositionPIDMinInput = 0; // radians
@@ -168,4 +169,16 @@ public final class Constants {
   public static final class NeoMotorConstants {
     public static final double kFreeSpeedRpm = 5676;
   }
+  public static final double ARM_EXTEND_CENTER_1 = 12; //placeholders TODO
+  public static final double ARM_EXTEND_CENTER_2 = 180; 
+
+  //center point for arm extension setpoints
+  public static final double ARM_PIVOT_CENTER_1 = 0; //placeholders TODO
+  public static final double ARM_PIVOT_CENTER_2 = 8;
+
+
+  public enum ArmSetpoint {
+      One, Two
+  }
+
 }
