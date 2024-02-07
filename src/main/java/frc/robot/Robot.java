@@ -62,9 +62,9 @@ public class Robot extends LoggedRobot {
       Logger.addDataReceiver(new WPILOGWriter()); // Log to a USB stick ("/U/logs")
       Logger.addDataReceiver(new NT4Publisher()); // Publish data to NetworkTables
       Pose2d poseA, poseB, poseC;
-      Logger.recordOutput("MyPose2d", poseA);
-      Logger.recordOutput("MyPose2dArray", poseA, poseB);
-      Logger.recordOutput("MyPose2dArray", new Pose2d[] { poseA, poseB });
+      //Logger.recordOutput("MyPose2d", poseA);
+      //Logger.recordOutput("MyPose2dArray", poseA, poseB);
+      //Logger.recordOutput("MyPose2dArray", new Pose2d[] { poseA, poseB });
       new PowerDistribution(1, ModuleType.kRev);
       // Enables power distribution logging
     } else {
