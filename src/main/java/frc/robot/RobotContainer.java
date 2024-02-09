@@ -36,11 +36,13 @@ import frc.robot.subsystems.IntakeSubsystem;
 public class RobotContainer {
   // The robot's subsystems
   private final DriveSubsystem m_robotDrive = new DriveSubsystem();
-
+  private final IntakeSubsystem m_noteSensor = new IntakeSubsystem();
   // The driver's controller
   XboxController m_driverController = new XboxController(OIConstants.kDriverControllerPort);
   // The Operator Controller
   XboxController m_operatorController = new XboxController(OIConstants.kOperatorControllerPort);
+  
+
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
@@ -77,10 +79,9 @@ public class RobotContainer {
             () -> m_robotDrive.setX(),
             m_robotDrive));
     //Operator
-if (m_operatorController.getRawButton(6)) {
-
-    }
-    
+new JoystickButton(m_operatorController, 6)
+.whileTrue(new RunCommand(
+    () -> m_noteSensor.NoteInIntake()));
   }
 
   /**

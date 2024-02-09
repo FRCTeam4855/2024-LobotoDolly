@@ -4,9 +4,29 @@
 
 package frc.robot;
 
+<<<<<<< Updated upstream
+=======
+
+
+
+import org.littletonrobotics.junction.LogFileUtil;
+import org.littletonrobotics.junction.LoggedRobot;
+import org.littletonrobotics.junction.Logger;
+import org.littletonrobotics.junction.networktables.NT4Publisher;
+import org.littletonrobotics.junction.wpilog.WPILOGReader;
+import org.littletonrobotics.junction.wpilog.WPILOGWriter;
+
+import com.revrobotics.ColorSensorV3;
+
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.wpilibj.PowerDistribution;
+import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
+
+>>>>>>> Stashed changes
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.subsystems.IntakeSubsystem;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -18,14 +38,54 @@ public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
 
   private RobotContainer m_robotContainer;
-
+  private IntakeSubsystem Intake = new IntakeSubsystem();
   /**
    * This function is run when the robot is first started up and should be used for any
    * initialization code.
    */
+<<<<<<< Updated upstream
   @Override
   public void robotInit() {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
+=======
+  
+  private static final String kAuton1 = "1. Drive Forward";
+  private static final String kAuton2 = "2. Back, Drop, Forward";
+  //private static final String kAuton3 = "3. B, D, F, B, Balance";
+  //private static final String kAuton4 = "Unused";
+  //private static final String kAuton5 = "ZZZ KKEP UNUSED";
+  //private static final String kAuton6 = "balance test";
+ 
+  private String m_autoSelected; // This selects between the two autonomous
+  public SendableChooser<String> m_chooser = new SendableChooser<>(); 
+
+  @Override
+  public void robotInit() {
+    Logger.recordMetadata("ProjectName", "MyProject"); // Set a metadata value
+        //SmartDashboard.putString("Current Auton:", m_autoSelected);
+    // if (isReal()) {
+    //   Logger.addDataReceiver(new WPILOGWriter()); // Log to a USB stick ("/U/logs")
+    //   Logger.addDataReceiver(new NT4Publisher()); // Publish data to NetworkTables
+    //   Pose2d poseA, poseB, poseC;
+    //   //Logger.recordOutput("MyPose2d", poseA);
+    //   //Logger.recordOutput("MyPose2dArray", poseA, poseB);
+    //   //Logger.recordOutput("MyPose2dArray", new Pose2d[] { poseA, poseB });
+    //   new PowerDistribution(1, ModuleType.kRev);
+    //   // Enables power distribution logging
+    // } else {
+    //   setUseTiming(false); // Run as fast as possible
+    //   String logPath = LogFileUtil.findReplayLog(); // Pull the replay log from AdvantageScope (or prompt the user)
+    //   Logger.setReplaySource(new WPILOGReader(logPath)); // Read replay log
+    //   Logger.addDataReceiver(new WPILOGWriter(LogFileUtil.addPathSuffix(logPath, "_sim"))); // Save outputs to a new log
+    // }
+
+    // Logger.disableDeterministicTimestamps() // See "Deterministic Timestamps" in
+    // the "Understanding Data Flow" page
+    //Logger.start(); // Start logging! No more data receivers, replay sources, or metadata values may
+                    // be added.
+    // Instantiate our RobotContainer. This will perform all our button bindings,
+    // and put our
+>>>>>>> Stashed changes
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
   }
@@ -39,9 +99,19 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotPeriodic() {
+<<<<<<< Updated upstream
     // Runs the Scheduler.  This is responsible for polling buttons, adding newly-scheduled
     // commands, running already-scheduled commands, removing finished or interrupted commands,
     // and running subsystem periodic() methods.  This must be called from the robot's periodic
+=======
+        //SmartDashboard.putNumber("Proximity", Intake.noteSensor.getProximity());
+    // Runs the Scheduler. This is responsible for polling buttons, adding
+    // newly-scheduled
+    // commands, running already-scheduled commands, removing finished or
+    // interrupted commands,
+    // and running subsystem periodic() methods. This must be called from the
+    // robot's periodic
+>>>>>>> Stashed changes
     // block in order for anything in the Command-based framework to work.
     CommandScheduler.getInstance().run();
   }
@@ -58,12 +128,23 @@ public class Robot extends TimedRobot {
   public void autonomousInit() {
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
+<<<<<<< Updated upstream
     /*
      * String autoSelected = SmartDashboard.getString("Auto Selector",
      * "Default"); switch(autoSelected) { case "My Auto": autonomousCommand
      * = new MyAutoCommand(); break; case "Default Auto": default:
      * autonomousCommand = new ExampleCommand(); break; }
      */
+=======
+    m_autoSelected = m_chooser.getSelected(); // pulls auton option selected from shuffleboard
+    // SmartDashboard.putString("Current Auton:", m_autoSelected);
+
+    switch (m_autoSelected) {
+
+      case kAuton1: 
+
+
+>>>>>>> Stashed changes
 
     // schedule the autonomous command (example)
     if (m_autonomousCommand != null) {
@@ -88,7 +169,13 @@ public class Robot extends TimedRobot {
 
   /** This function is called periodically during operator control. */
   @Override
+<<<<<<< Updated upstream
   public void teleopPeriodic() {}
+=======
+  public void teleopPeriodic() {
+    SmartDashboard.putNumber("Proximity", Intake.noteSensor.getProximity());
+  }
+>>>>>>> Stashed changes
 
   @Override
   public void testInit() {
