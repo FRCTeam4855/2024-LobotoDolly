@@ -76,14 +76,16 @@ public class Limelight extends SubsystemBase {
     NetworkTableEntry xEntry = table.getEntry("tx"); //Horizontal Offset From Crosshair To Target (LL1: -27 degrees to 27 degrees | LL2: -29.8 to 29.8 degrees)
     NetworkTableEntry yEntry = table.getEntry("ty"); //Vertical Offset From Crosshair To Target (LL1: -20.5 degrees to 20.5 degrees | LL2: -24.85 to 24.85 degrees)
     NetworkTableEntry aEntry = table.getEntry("ta"); //Target Area (0% of image to 100% of image)
+    /*
     NetworkTableEntry lEntry = table.getEntry("tl"); //The pipeline’s latency contribution (ms). Add to “cl” to get total latency.
+    */
     NetworkTableEntry vEntry = table.getEntry("tv"); //Whether the limelight has any valid targets (0 or 1)
     
    
     double tx = xEntry.getDouble(0.0); // Horizontal Offset From Crosshair To Target (-27 degrees to 27 degrees)
     double ty = yEntry.getDouble(0.0); // Vertical Offset From Crosshair To Target (-20.5 degrees to 20.5 degrees)
     double ta = aEntry.getDouble(0.0); // Target Area (0% of image to 100% of image)
-    double tl = lEntry.getDouble(0.0); // The pipeline’s latency contribution (ms) Add at least 11ms for image capture latency.
+    // double tl = lEntry.getDouble(0.0); // The pipeline’s latency contribution (ms) Add at least 11ms for image capture latency.
     double tv = vEntry.getDouble(0.0); // Whether the limelight has any valid targets (0 or 1)
 
     
@@ -108,7 +110,7 @@ public class Limelight extends SubsystemBase {
     SmartDashboard.putNumber("Limelight X", tx);
     SmartDashboard.putNumber("Limelight Y", ty);
     SmartDashboard.putNumber("Limelight Area", ta);
-    SmartDashboard.putNumber("Limelight Latency", tl);
+    //SmartDashboard.putNumber("Limelight Latency", tl);
     SmartDashboard.putNumber("Limelight Valid Target", tv);
     SmartDashboard.putBoolean("Limelight Has Target", doesLimelightHaveTarget());
     SmartDashboard.putBoolean("Limelight in AprilTag Mode", isLimelightOnAprilTagMode());

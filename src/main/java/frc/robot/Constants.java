@@ -26,7 +26,7 @@ import edu.wpi.first.math.util.Units;
 public final class Constants {
   public static final class DriveConstants {
     // Driving Parameters - Note that these are not the maximum capable speeds of
-    // the robot, rather the allowed maximum speeds
+    // the robot, rather the allowed maximum speeds    
     public static final double kMaxSpeedMetersPerSecond = 4;
     public static final double kMaxAngularSpeed = 2 * Math.PI; // radians per second
 
@@ -64,8 +64,8 @@ public final class Constants {
     public static final int kFrontRightDrivingCanId = 7;
     public static final int kFrontRightTurningCanId = 8; // Zero offset: 0.515
 
-    public static final int kArmPivotRightCanId = 9;
-    public static final int kArmPivotLeftCanId = 10;
+    public static final int kArmPivotRightCanId = 20;
+    public static final int kArmPivotLeftCanId = 21;
 
     public static final int kFlyWheelTopCanId = 11;
     public static final int kFlyWheelBottomCanId = 12;
