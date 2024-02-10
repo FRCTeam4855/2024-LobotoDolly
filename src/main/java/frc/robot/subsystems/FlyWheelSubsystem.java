@@ -5,15 +5,15 @@ import com.revrobotics.CANSparkLowLevel.MotorType;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class FlywheelSubsystem extends SubsystemBase {
-    private final CANSparkMax m_rightFlywheelSparkMax;
-    private final CANSparkMax m_leftFlywheelSparkMax;
+    public final CANSparkMax m_rightFlywheelSparkMax;
+    public final CANSparkMax m_leftFlywheelSparkMax;
     public FlywheelSubsystem() {
-        m_rightFlywheelSparkMax = new CANSparkMax(14, MotorType.kBrushless);
-        m_leftFlywheelSparkMax = new CANSparkMax(15, MotorType.kBrushless);
+        m_rightFlywheelSparkMax = new CANSparkMax(12, MotorType.kBrushless);
+        m_leftFlywheelSparkMax = new CANSparkMax(11, MotorType.kBrushless);
     }
     public void FlywheelSpeaker() {
-        m_rightFlywheelSparkMax.set(1);
-        m_leftFlywheelSparkMax.set(1);
+        m_rightFlywheelSparkMax.set(.4);
+        m_leftFlywheelSparkMax.set(.5);
     }
     public void FlywheelAmp() {
         m_rightFlywheelSparkMax.set(.1);

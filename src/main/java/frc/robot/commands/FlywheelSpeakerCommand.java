@@ -17,7 +17,7 @@ public class FlywheelSpeakerCommand extends Command{
         
     }
 
-    public void execute(){
+    public void execute(){ //5.7 degrees
         LeftFlywheel.FlywheelSpeaker();
         RightFlywheel.FlywheelSpeaker();
     }
