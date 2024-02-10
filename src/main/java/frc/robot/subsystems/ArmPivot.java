@@ -97,6 +97,8 @@ public class ArmPivot extends SubsystemBase {
       pivotSetpoint = ARM_PIVOT_CENTER_1;
     if (armSetpoint == ArmSetpoint.Two)
       pivotSetpoint = ARM_PIVOT_CENTER_2;
+    if (armSetpoint == ArmSetpoint.Three)
+      pivotSetpoint = ARM_PIVOT_CENTER_3;
   }
 
   public double getPivotSetpointPosition() {
