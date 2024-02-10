@@ -3,10 +3,10 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.IntakeSubsystem;
 
-public class IntakeOutputCommand extends Command {
-    private final IntakeSubsystem Intake;
+public class IntakeStopCommand extends Command {
+    private IntakeSubsystem Intake;
 
-    public IntakeOutputCommand(IntakeSubsystem thisIntake) {
+    public IntakeStopCommand(IntakeSubsystem thisIntake) {
         Intake = thisIntake;
     }
 
@@ -19,10 +19,6 @@ public class IntakeOutputCommand extends Command {
     }
 
     public boolean isFinished() {
-        if (Intake.IntakeSpeed > -.5) {
-            return true;
-        } else {
-            return false;
-        }
+        return true;
     }
 }
