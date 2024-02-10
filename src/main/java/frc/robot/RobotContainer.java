@@ -24,6 +24,9 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.OIConstants;
+import frc.robot.commands.IntakeInputCommand;
+import frc.robot.commands.IntakeOutputCommand;
+import frc.robot.commands.IntakeStopCommand;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 
@@ -49,7 +52,7 @@ public class RobotContainer {
     public RobotContainer() {
         // Configure the button bindings
         configureButtonBindings();
-        intakeSubsystem = new IntakeSubsystem();
+         intakeSubsystem = new IntakeSubsystem();
         // Configure default commands
         m_robotDrive.setDefaultCommand(
                 // The left stick controls translation of the robot.
@@ -78,12 +81,7 @@ public class RobotContainer {
                 .whileTrue(new RunCommand(
                         () -> m_robotDrive.setX(),
                         m_robotDrive));
-        // Operator
-        new JoystickButton(m_operatorController, 6)
-                .whileTrue(new RunCommand(
-                        () -> intakeSubsystem.NoteInIntake()));
     }
-
     /**
      * Use this to pass the autonomous command to the main {@link Robot} class.
      *

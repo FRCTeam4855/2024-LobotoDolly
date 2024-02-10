@@ -10,36 +10,34 @@ import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 public class IntakeSubsystem extends SubsystemBase {
-    
-    
+
     private final CANSparkMax m_intakeSparkMax;
-    //private final SparkPIDController m_intakePIDController;
+    // private final SparkPIDController m_intakePIDController;
     public ColorSensorV3 m_noteSensor;
-    //int proximity = noteSensor.getProximity();
+    public double IntakeSpeed = 0;
+
+    // int proximity = noteSensor.getProximity();
     public IntakeSubsystem() {
         m_intakeSparkMax = new CANSparkMax(10, MotorType.kBrushless);
-        //m_intakePIDController = m_intakeSparkMax.getPIDController();
+        // m_intakePIDController = m_intakeSparkMax.getPIDController();
         m_noteSensor = new ColorSensorV3(I2C.Port.kOnboard);
     }
 
-    public void NoteInIntake() {
-        if (m_noteSensor.getProximity() <= 1000) {
-            m_intakeSparkMax.set(1);
-        } else {
-            IntakeStop();
-        }
-    }
-
     public void IntakeInput() {
-        m_intakeSparkMax.set(1);
+        IntakeSpeed = .5;
     }
 
     public void IntakeOutput() {
-        m_intakeSparkMax.set(-1);
+        IntakeSpeed = -.5;
     }
 
     public void IntakeStop() {
-        m_intakeSparkMax.set(0);
+        IntakeSpeed = 0;
+    }
+
+    public void IntakeRun() {
+        m_intakeSparkMax.set(IntakeSpeed);
     }
 }
