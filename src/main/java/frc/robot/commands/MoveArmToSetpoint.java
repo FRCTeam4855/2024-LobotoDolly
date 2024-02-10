@@ -2,12 +2,12 @@ package frc.robot.commands;
 
 
 import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.ArmSetpoint;
-import frc.robot.Subsystems.ArmExtend;
-import frc.robot.Subsystems.ArmPivot;
+import frc.robot.subsystems.ArmExtend;
+import frc.robot.subsystems.ArmPivot;
 
-public class MoveArmToSetpoint extends CommandBase {
+public class MoveArmToSetpoint extends Command {
 
   private ArmExtend armExtend;
   private ArmPivot armPivot;
