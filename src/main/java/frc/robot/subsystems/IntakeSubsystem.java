@@ -14,17 +14,17 @@ public class IntakeSubsystem extends SubsystemBase {
     
     
     private final CANSparkMax m_intakeSparkMax;
-    private final SparkPIDController m_intakePIDController;
-    public ColorSensorV3 kNoteSensor;
+    //private final SparkPIDController m_intakePIDController;
+    public ColorSensorV3 m_noteSensor;
     //int proximity = noteSensor.getProximity();
     public IntakeSubsystem() {
         m_intakeSparkMax = new CANSparkMax(10, MotorType.kBrushless);
-        m_intakePIDController = m_intakeSparkMax.getPIDController();
-        kNoteSensor = new ColorSensorV3(I2C.Port.kOnboard);
+        //m_intakePIDController = m_intakeSparkMax.getPIDController();
+        m_noteSensor = new ColorSensorV3(I2C.Port.kOnboard);
     }
 
     public void NoteInIntake() {
-        if (kNoteSensor.getProximity() <= 1000){
+        if (m_noteSensor.getProximity() <= 1000) {
             m_intakeSparkMax.set(1);
         } else {
             IntakeStop();

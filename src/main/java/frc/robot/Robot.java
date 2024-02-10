@@ -40,7 +40,7 @@ public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
 
   private RobotContainer m_robotContainer;
-  private IntakeSubsystem kIntake;
+  //private IntakeSubsystem intakeSubsystem;
   /**
    * This function is run when the robot is first started up and should be used for any
    * initialization code.
@@ -83,8 +83,8 @@ public class Robot extends TimedRobot {
     // Instantiate our RobotContainer. This will perform all our button bindings,
     // and put our
     // autonomous chooser on the dashboard.
+    //intakeSubsystem = new IntakeSubsystem();
     m_robotContainer = new RobotContainer();
-    kIntake = new IntakeSubsystem();
   }
 
   /**
@@ -113,7 +113,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void disabledPeriodic() {
-      SmartDashboard.putNumber("Proximity", kIntake.kNoteSensor.getProximity());
+      SmartDashboard.putNumber("Proximity", m_robotContainer.intakeSubsystem.m_noteSensor.getProximity());
   }
 
   /** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
@@ -155,7 +155,7 @@ public class Robot extends TimedRobot {
   /** This function is called periodically during operator control. */
   @Override
   public void teleopPeriodic() {
-    SmartDashboard.putNumber("Proximity", kIntake.kNoteSensor.getProximity());
+    SmartDashboard.putNumber("Proximity", m_robotContainer.intakeSubsystem.m_noteSensor.getProximity());
   }
 
   @Override
