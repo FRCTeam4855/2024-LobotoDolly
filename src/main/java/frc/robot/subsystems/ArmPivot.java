@@ -4,10 +4,6 @@ import com.revrobotics.SparkAbsoluteEncoder.Type;
 //import com.fasterxml.jackson.databind.AnnotationIntrospector.ReferenceProperty.Type;
 //import com.revrobotics.AbsoluteEncoder;
 
-//2 neos, 1 through bour encoder, 1 IMU
-
-//2 limit switches, one for each end
-
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.SparkAbsoluteEncoder;
 import com.revrobotics.SparkPIDController;
