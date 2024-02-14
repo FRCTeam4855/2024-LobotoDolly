@@ -170,15 +170,19 @@ public final class Constants {
     public static final double kFreeSpeedRpm = 5676;
   }
   public static final double ARM_EXTEND_CENTER_1 = 12; //placeholders TODO
-  public static final double ARM_EXTEND_CENTER_2 = 180; 
+  public static final double ARM_EXTEND_CENTER_2 = 180;
+  public static final double ARM_EXTEND_CENTER_3 = 420;
+  public static final double ARM_EXTEND_SLOP = 5;    //acceptable range for arm extension setpoints
 
   //center point for arm extension setpoints
   public static final double ARM_PIVOT_CENTER_1 = 0; //placeholders TODO
   public static final double ARM_PIVOT_CENTER_2 = 8;
+  public static final double ARM_PIVOT_CENTER_3 = 666;
+  public static final double ARM_PIVOT_SLOP = .1; //acceptable range for arm extension setpoints
 
 
   public enum ArmSetpoint {
-      One, Two
+      One, Two, Three
   }
 
 }
