@@ -161,14 +161,13 @@ public class Robot extends LoggedRobot {
    */
   @Override
   public void autonomousInit() {
-    m_autonomousCommand = m_robotContainer.getAutonomousCommand();
-
+    
     m_autoSelected = m_chooser.getSelected(); // pulls auton option selected from shuffleboard
     SmartDashboard.putString("Current Auton:", m_autoSelected);
 
     switch (m_autoSelected) {
 
-      case kAuton1:
+      case kAuton1: m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
     }
   }
