@@ -1,8 +1,4 @@
 package frc.robot.subsystems;
-//2 neos, 1 through bour encoder, 1 IMU
-
-//2 limit switches, one for each end
-
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.SparkAbsoluteEncoder;
 import com.revrobotics.SparkPIDController;
@@ -16,76 +12,60 @@ import com.revrobotics.SparkAbsoluteEncoder.Type;
 
 public class ArmPivot extends SubsystemBase {
   double pivotSetpoint;
-  CANSparkMax armPivotOne = new CANSparkMax(9, MotorType.kBrushless);
-  SparkPIDController pivotPIDController = armPivotOne.getPIDController();
+  CANSparkMax m_armPivotOne = new CANSparkMax(9, MotorType.kBrushless);
+  SparkPIDController pivotPIDController = m_armPivotOne.getPIDController();
 
-  public void setPivotDirectionForward() {
-    armPivotOne.set(-1);
-  }
 
-  public void setPivotDirectionBackward() {
-    armPivotOne.set(1);
-  }
-
-  public void setPivotStop() {
-    armPivotOne.set(0);
-  }
-
-  public void armPivotVariable(double speed) {
-    armPivotOne.set(speed);
-    // armPivotTwo.set(speed);
-  }
-
-  public double getPivotPostion() {
-    return armPivotOne.getEncoder().getPosition();
-  }
-
-  public void resetPivotEncoderZero() {
-    armPivotOne.getEncoder().setPosition(0);
-  }
-
-  public void resetPivotEncoderVariable(double value, double slotID) {
-    armPivotOne.getEncoder().setPosition(value);
-  }
-
-  // Old manual control, but it resets the zero point so DO NOT USE
-  // public void setPivotPositionVariable(){
-  // pivotPIDController.setReference(armPivotOne.getEncoder().getPosition(),
-  // CANSparkMax.ControlType.kPosition);
+  //unnecessary manual controls, not needed when using setpoint control
+  
+  // public void setPivotDirectionForward() {
+  //   m_armPivotOne.set(-1);
   // }
 
-  // set reference encoder position manually BUT uses PID slot 2 on sparkmax
-  // (static setpoints use slot 0)
-  public void setPivotPositionVariable(double position) {
-    pivotPIDController.setReference(position, CANSparkMax.ControlType.kPosition, 2);
+  // public void setPivotDirectionBackward() {
+  //   m_armPivotOne.set(1);
+  // }
+
+  // public void setPivotStop() {
+  //   m_armPivotOne.set(0);
+  // }
+
+  // public void armPivotVariable(double speed) {
+  //   m_armPivotOne.set(speed);
+  // }
+
+  public double getPivotPostion() {
+    return m_armPivotOne.getEncoder().getPosition();
   }
+
+  //not needed for absolute encoder
+  // public void resetPivotEncoderZero() {
+  //   m_armPivotOne.getEncoder().setPosition(0);
+  // }
+
+
 
   public void initPivot() {
     // PID coefficients
-    armPivotOne.restoreFactoryDefaults();
-    armPivotOne.restoreFactoryDefaults();
-    armPivotOne.setIdleMode(IdleMode.kBrake);
-    SparkAbsoluteEncoder m_pivotEncoder = armPivotOne.getAbsoluteEncoder(Type.kDutyCycle);
-    double kP = 0.1; // slot 0 static setpoints
-    double kP2 = 0.2; // slot 2 manual adjustment
-    double kI = 0; // .0004;
-    double kD = 0; // 1.2;
+    m_armPivotOne.restoreFactoryDefaults();
+    m_armPivotOne.setIdleMode(IdleMode.kBrake);
+    SparkAbsoluteEncoder m_pivotEncoder = m_armPivotOne.getAbsoluteEncoder(Type.kDutyCycle);
+    double kP = .05; 
+    double kI = 0; 
+    double kD = 0; 
     double kIz = 0;
     double kFF = 0;
-    double kMaxOutput = .20; // slot 0 pivot speed max
-    double kMaxOutput2 = .4; // slot 2 pivot speed max
-    double kMinOutput = -.20;
-    double kMinOutput2 = -.4;
+    double kMaxOutput = 1; 
+    double kMinOutput = -1;
     pivotPIDController.setFeedbackDevice(m_pivotEncoder);
     pivotPIDController.setP(kP);
-    pivotPIDController.setP(kP2, 2);
     pivotPIDController.setI(kI);
     pivotPIDController.setD(kD);
     pivotPIDController.setIZone(kIz);
     pivotPIDController.setFF(kFF);
     pivotPIDController.setOutputRange(kMinOutput, kMaxOutput);
-    pivotPIDController.setOutputRange(kMinOutput2, kMaxOutput2, 2);
     m_pivotEncoder.setPositionConversionFactor(360);
+    m_pivotEncoder.setVelocityConversionFactor(365);
   }
 
   public void setPivotSetpoint(ArmSetpoint armSetpoint) {
