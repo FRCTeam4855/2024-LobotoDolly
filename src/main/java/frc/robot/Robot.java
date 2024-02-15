@@ -18,16 +18,18 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
 
-
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import frc.robot.commands.FlywheelAmpCommand;
-import frc.robot.commands.FlywheelSpeakerCommand;
+import static frc.robot.Constants.*;
+
+import frc.robot.Constants.ArmSetpoint;
+import frc.robot.commands.ArmSetpointCommand;
 import frc.robot.commands.IntakeInputCommand;
 import frc.robot.commands.IntakeOutputCommand;
 import frc.robot.commands.IntakeStopCommand;
+import frc.robot.subsystems.ArmPivot;
 import frc.robot.subsystems.FlywheelSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 
@@ -65,6 +67,8 @@ public class Robot extends LoggedRobot {
 
   private String m_autoSelected; // This selects between the two autonomous
   public SendableChooser<String> m_chooser = new SendableChooser<>();
+  ArmSetpoint currentSetpoint;
+  ArmPivot armPivot = new ArmPivot();
 
   @Override
   public void robotInit() {
@@ -104,6 +108,7 @@ public class Robot extends LoggedRobot {
     flywheelSubsystem = new FlywheelSubsystem();
 
     m_robotContainer.intakeSubsystem.IntakeStop();
+    armPivot.initPivot();
 
     m_chooser.addOption("1. pick up cone inside robot and drive out of comm", kAuton1);
     m_chooser.setDefaultOption("2. Drop cone on mid and drive out of comm", kAuton2);
@@ -161,13 +166,14 @@ public class Robot extends LoggedRobot {
    */
   @Override
   public void autonomousInit() {
-    
+
     m_autoSelected = m_chooser.getSelected(); // pulls auton option selected from shuffleboard
     SmartDashboard.putString("Current Auton:", m_autoSelected);
 
     switch (m_autoSelected) {
 
-      case kAuton1: m_autonomousCommand = m_robotContainer.getAutonomousCommand();
+      case kAuton1:
+        m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
     }
   }
@@ -194,26 +200,44 @@ public class Robot extends LoggedRobot {
 
     SmartDashboard.putNumber("Proximity", m_robotContainer.intakeSubsystem.m_noteSensor.getProximity());
 
-    if (m_robotContainer.m_operatorController.getRawButton(1)) {
-      m_robotContainer.intakeSubsystem.IntakeInput();
-      CommandScheduler.getInstance()
-          .schedule((new IntakeInputCommand(m_robotContainer.intakeSubsystem)));
-    }
-    if (m_robotContainer.m_operatorController.getRawButton(3)) {
+    if (m_robotContainer.m_operatorController.getRawButton(5) && m_robotContainer.intakeSubsystem.IntakeSpeed != 0) {
       m_robotContainer.intakeSubsystem.IntakeStop();
+      CommandScheduler.getInstance()
+          .schedule((new IntakeStopCommand(m_robotContainer.intakeSubsystem)));
+    } else if (m_robotContainer.m_operatorController.getRawButton(5)) {
+      m_robotContainer.intakeSubsystem.IntakeInput();
       CommandScheduler.getInstance()
           .schedule((new IntakeStopCommand(m_robotContainer.intakeSubsystem)));
     }
 
-    if (m_robotContainer.m_operatorController.getRawButton(2)) {
+    if (m_robotContainer.m_operatorController.getRawButton(6)) {
       m_robotContainer.intakeSubsystem.IntakeOutput();
       CommandScheduler.getInstance()
           .schedule((new IntakeOutputCommand(m_robotContainer.intakeSubsystem)));
     }
 
-    if (m_robotContainer.m_operatorController.getRawButton(4)) {
+    if (m_robotContainer.m_operatorController.getRawButton(kArmSetpoint1Button_A)) {
       CommandScheduler.getInstance()
-          .schedule((new FlywheelSpeakerCommand(flywheelSubsystem, flywheelSubsystem)));
+          .schedule((new ArmSetpointCommand(armPivot, ArmSetpoint.One, currentSetpoint)));
+      currentSetpoint = ArmSetpoint.One;
+    }
+    if (m_robotContainer.m_operatorController.getRawButton(kArmSetpoint2Button_B)) {
+      CommandScheduler.getInstance()
+          .schedule((new ArmSetpointCommand(armPivot, ArmSetpoint.Two, currentSetpoint)));
+      currentSetpoint = ArmSetpoint.Two;
+
+    }
+    if (m_robotContainer.m_operatorController.getRawButton(kArmSetpoint3Button_X)) {
+      CommandScheduler.getInstance()
+          .schedule((new ArmSetpointCommand(armPivot, ArmSetpoint.Three, currentSetpoint)));
+      currentSetpoint = ArmSetpoint.Three;
+
+    }
+    if (m_robotContainer.m_operatorController.getRawButton(kArmSetpoint4Button_Y)) {
+      CommandScheduler.getInstance()
+          .schedule((new ArmSetpointCommand(armPivot, ArmSetpoint.Four, currentSetpoint)));
+      currentSetpoint = ArmSetpoint.Four;
+
     }
 
   }

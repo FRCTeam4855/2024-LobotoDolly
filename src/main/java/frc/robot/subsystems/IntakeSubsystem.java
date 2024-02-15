@@ -18,6 +18,7 @@ public class IntakeSubsystem extends SubsystemBase {
     public ColorSensorV3 m_noteSensor;
     public double IntakeSpeed = 0;
 
+
     // int proximity = noteSensor.getProximity();
     public IntakeSubsystem() {
         m_intakeSparkMax = new CANSparkMax(10, MotorType.kBrushless);

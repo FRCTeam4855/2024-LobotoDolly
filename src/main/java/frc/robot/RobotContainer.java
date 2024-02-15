@@ -22,7 +22,7 @@ import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DriveConstants;
-import frc.robot.Constants.OIConstants;
+import static frc.robot.Constants.*;
 import frc.robot.commands.IntakeInputCommand;
 import frc.robot.commands.IntakeOutputCommand;
 import frc.robot.commands.IntakeStopCommand;
@@ -40,9 +40,9 @@ public class RobotContainer {
         private final DriveSubsystem m_robotDrive = new DriveSubsystem();
 
         // The driver's controller
-        XboxController m_driverController = new XboxController(OIConstants.kDriverControllerPort);
+        XboxController m_driverController = new XboxController(kDriverControllerPort);
         // The Operator Controller
-        XboxController m_operatorController = new XboxController(OIConstants.kOperatorControllerPort);
+        XboxController m_operatorController = new XboxController(kOperatorControllerPort);
         IntakeSubsystem intakeSubsystem;
 
         /**
@@ -59,11 +59,11 @@ public class RobotContainer {
                                 new RunCommand(
                                                 () -> m_robotDrive.drive(
                                                                 -MathUtil.applyDeadband(m_driverController.getLeftY(),
-                                                                                OIConstants.kDriveDeadband),
+                                                                                kDriveDeadband),
                                                                 -MathUtil.applyDeadband(m_driverController.getLeftX(),
-                                                                                OIConstants.kDriveDeadband),
+                                                                                kDriveDeadband),
                                                                 -MathUtil.applyDeadband(m_driverController.getRightX(),
-                                                                                OIConstants.kDriveDeadband),
+                                                                                kDriveDeadband),
                                                                 true, true),
                                                 m_robotDrive));
         }
