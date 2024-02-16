@@ -7,6 +7,8 @@ import com.revrobotics.CANSparkLowLevel.MotorType;
 // import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ArmSetpoint;
+import frc.robot.Constants.ModuleConstants;
+
 import static frc.robot.Constants.*;
 import com.revrobotics.SparkAbsoluteEncoder.Type;
 
@@ -50,11 +52,11 @@ public class ArmPivot extends SubsystemBase {
     m_armPivotOne.restoreFactoryDefaults();
     m_armPivotOne.setIdleMode(IdleMode.kBrake);
     SparkAbsoluteEncoder m_pivotEncoder = m_armPivotOne.getAbsoluteEncoder(Type.kDutyCycle);
-    double kP = .05; 
+    double kP = .0175; 
     double kI = 0; 
     double kD = 0; 
     double kIz = 0;
-    double kFF = 0;
+    double kFF = .0021;
     double kMaxOutput = 1; 
     double kMinOutput = -1;
     pivotPIDController.setFeedbackDevice(m_pivotEncoder);
@@ -65,7 +67,12 @@ public class ArmPivot extends SubsystemBase {
     pivotPIDController.setFF(kFF);
     pivotPIDController.setOutputRange(kMinOutput, kMaxOutput);
     m_pivotEncoder.setPositionConversionFactor(360);
-    m_pivotEncoder.setVelocityConversionFactor(365);
+    m_pivotEncoder.setVelocityConversionFactor(360);
+    m_armPivotOne.setInverted(true);
+    pivotPIDController.setPositionPIDWrappingEnabled(true);
+    pivotPIDController.setPositionPIDWrappingMinInput(0);
+    pivotPIDController.setPositionPIDWrappingMaxInput(360);
+    m_armPivotOne.setSmartCurrentLimit(40);
   }
 
   public void setPivotSetpoint(ArmSetpoint armSetpoint) {
