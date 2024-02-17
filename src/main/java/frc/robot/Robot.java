@@ -4,18 +4,12 @@
 
 package frc.robot;
 
-import org.littletonrobotics.junction.LogFileUtil;
-import org.littletonrobotics.junction.LoggedRobot;
-import org.littletonrobotics.junction.Logger;
-import org.littletonrobotics.junction.networktables.NT4Publisher;
-import org.littletonrobotics.junction.wpilog.WPILOGReader;
-import org.littletonrobotics.junction.wpilog.WPILOGWriter;
-
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.ColorSensorV3;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj.PowerDistribution;
+import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
 
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -43,7 +37,7 @@ import frc.robot.subsystems.IntakeSubsystem;
  * project.
  */
 
-public class Robot extends LoggedRobot {
+public class Robot extends TimedRobot {
 
   private Command m_autonomousCommand;
 
@@ -174,6 +168,12 @@ public class Robot extends LoggedRobot {
 
       case kAuton1:
         m_autonomousCommand = m_robotContainer.getAutonomousCommand();
+        CommandScheduler.getInstance()
+            .schedule(m_autonomousCommand);
+      case kAuton2:
+        m_autonomousCommand = m_robotContainer.getSquareCommand();
+        CommandScheduler.getInstance()
+            .schedule(m_autonomousCommand);
 
     }
   }

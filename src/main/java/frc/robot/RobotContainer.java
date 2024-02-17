@@ -101,12 +101,6 @@ public class RobotContainer {
                 Trajectory exampleTrajectory = TrajectoryGenerator.generateTrajectory(
                                 new Pose2d(0, 0, new Rotation2d(0)),
                                 List.of(new Translation2d(1, 1), new Translation2d(2, -1)),
-                                new Pose2d(3, 0, new Rotation2d(0)), 
-                                config);
-
-                Trajectory driveForwards = TrajectoryGenerator.generateTrajectory(
-                                new Pose2d(0, 0, new Rotation2d(0)),
-                                List.of(new Translation2d(1, 0), new Translation2d(2, 0)),
                                 new Pose2d(3, 0, new Rotation2d(0)),
                                 config);
 
@@ -125,7 +119,29 @@ public class RobotContainer {
                                 m_robotDrive::setModuleStates,
                                 m_robotDrive);
 
-                SwerveControllerCommand SwerveControllerCommand = new SwerveControllerCommand(
+                // Reset odometry to the starting pose of the trajectory.
+                m_robotDrive.resetOdometry(exampleTrajectory.getInitialPose());
+
+                // Run path following command, then stop at the end.
+                return swerveControllerCommand.andThen(() -> m_robotDrive.drive(0, 0, 0, false, false));
+        }
+
+        public Command getSquareCommand() {
+                TrajectoryConfig config = new TrajectoryConfig(
+                                AutoConstants.kMaxSpeedMetersPerSecond,
+                                AutoConstants.kMaxAccelerationMetersPerSecondSquared)
+                                // Add kinematics to ensure max speed is actually obeyed
+                                .setKinematics(DriveConstants.kDriveKinematics);
+                Trajectory driveForwards = TrajectoryGenerator.generateTrajectory(
+                                new Pose2d(0, 0, new Rotation2d(0)),
+                                List.of(new Translation2d(1, 0)),
+                                new Pose2d(1, -1, new Rotation2d(Math.toRadians(270))),
+                                config);
+                var thetaController = new ProfiledPIDController(
+                                AutoConstants.kPThetaController, 0, 0, AutoConstants.kThetaControllerConstraints);
+                thetaController.enableContinuousInput(-Math.PI, Math.PI);
+
+                SwerveControllerCommand swerveControllerCommand = new SwerveControllerCommand(
                                 driveForwards,
                                 m_robotDrive::getPose, // Functional interface to feed supplier
                                 DriveConstants.kDriveKinematics,
@@ -137,10 +153,10 @@ public class RobotContainer {
                                 m_robotDrive::setModuleStates,
                                 m_robotDrive);
 
-                // Reset odometry to the starting pose of the trajectory.
-                m_robotDrive.resetOdometry(exampleTrajectory.getInitialPose());
+                                 m_robotDrive.resetOdometry(driveForwards.getInitialPose());
 
                 // Run path following command, then stop at the end.
                 return swerveControllerCommand.andThen(() -> m_robotDrive.drive(0, 0, 0, false, false));
+
         }
 }
