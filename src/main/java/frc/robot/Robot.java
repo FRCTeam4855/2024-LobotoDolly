@@ -24,6 +24,7 @@ import frc.robot.commands.IntakeInputCommand;
 import frc.robot.commands.IntakeOutputCommand;
 import frc.robot.commands.IntakeStopCommand;
 import frc.robot.subsystems.ArmPivot;
+import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.FlywheelSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 
@@ -42,7 +43,7 @@ public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
 
   private RobotContainer m_robotContainer;
-
+  // private DriveSubsystem driveSubsystem;
   private FlywheelSubsystem flywheelSubsystem;
   // private IntakeSubsystem intakeSubsystem;
   /**
@@ -98,7 +99,8 @@ public class Robot extends TimedRobot {
     // autonomous chooser on the dashboard.
     // intakeSubsystem = new IntakeSubsystem();
     m_robotContainer = new RobotContainer();
-
+    m_robotContainer.m_robotDrive.m_gyro.reset();
+    // driveSubsystem = new DriveSubsystem();
     flywheelSubsystem = new FlywheelSubsystem();
 
     m_robotContainer.intakeSubsystem.IntakeStop();
@@ -140,6 +142,8 @@ public class Robot extends TimedRobot {
     // robot's periodic
     // block in order for anything in the Command-based framework to work.
     CommandScheduler.getInstance().run();
+    SmartDashboard.putNumber("GyroYaw", m_robotContainer.m_robotDrive.m_gyro.getYaw());
+    SmartDashboard.putNumber("GyroAngle", m_robotContainer.m_robotDrive.m_gyro.getAngle());
   }
 
   /** This function is called once each time the robot enters Disabled mode. */
@@ -160,7 +164,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousInit() {
-
+    m_robotContainer.m_robotDrive.m_gyro.reset();
     m_autoSelected = m_chooser.getSelected(); // pulls auton option selected from shuffleboard
     SmartDashboard.putString("Current Auton:", m_autoSelected);
 
@@ -189,9 +193,11 @@ public class Robot extends TimedRobot {
     // teleop starts running. If you want the autonomous to
     // continue until interrupted by another command, remove
     // this line or comment it out.
+    m_robotContainer.m_robotDrive.m_gyro.reset();
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
+
   }
 
   /** This function is called periodically during operator control. */

@@ -43,7 +43,7 @@ public final class Constants {
     public static final double kArmSetpoint4 = 90; // Start Pos
     public static final double kArmSetpoint5 = 90; // Trap
     public static final double kArmPivotSlop = 0; // acceptable range for arm extension setpoints
-    
+
   public enum ArmSetpoint {
     One, Two, Three, Four, Five
   }
@@ -93,7 +93,7 @@ public final class Constants {
 
     public static final int kIntakeCanId = 13;
 
-    public static final boolean kGyroReversed = false;
+    public static final boolean kGyroReversed = true;
   }
 
   public static final class ModuleConstants {
@@ -132,12 +132,12 @@ public final class Constants {
     public static final double kDrivingFF = 1 / kDriveWheelFreeSpeedRps;
     public static final double kDrivingMinOutput = -1;
     public static final double kDrivingMaxOutput = 1;
-    public static final double kTurningP = 1;
+    public static final double kTurningP = .5;
     public static final double kTurningI = 0;
     public static final double kTurningD = .1;
     public static final double kTurningFF = 0;
-    public static final double kTurningMinOutput = -1;
-    public static final double kTurningMaxOutput = 1;
+    public static final double kTurningMinOutput = -1; //-1
+    public static final double kTurningMaxOutput = 1; //1
     public static final IdleMode kDrivingMotorIdleMode = IdleMode.kBrake;
     public static final IdleMode kTurningMotorIdleMode = IdleMode.kBrake;
     public static final int kDrivingMotorCurrentLimit = 50; // amps
@@ -149,8 +149,8 @@ public final class Constants {
   }
 
   public static final class AutoConstants {
-    public static final double kMaxSpeedMetersPerSecond = 1; //3
-    public static final double kMaxAccelerationMetersPerSecondSquared = 1; //3
+    public static final double kMaxSpeedMetersPerSecond = 3; 
+    public static final double kMaxAccelerationMetersPerSecondSquared = 3;
     public static final double kMaxAngularSpeedRadiansPerSecond = Math.PI;
     public static final double kMaxAngularSpeedRadiansPerSecondSquared = Math.PI;
     public static final double kPXController = 1;
