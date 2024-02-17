@@ -135,7 +135,7 @@ public class RobotContainer {
                 Trajectory driveForwards = TrajectoryGenerator.generateTrajectory(
                                 new Pose2d(0, 0, new Rotation2d(0)),
                                 List.of(new Translation2d(1, 0)),
-                                new Pose2d(1, -1, new Rotation2d(Math.toRadians(90))),
+                                new Pose2d(1, -1, new Rotation2d(Math.toRadians(-90))),
                                 config); //easy auton this year, we bouta shoot, then we bouta back it up
                 var thetaController = new ProfiledPIDController(
                                 AutoConstants.kPThetaController, 0, 0, AutoConstants.kThetaControllerConstraints);
