@@ -8,8 +8,8 @@ public class FlywheelSubsystem extends SubsystemBase {
 
     CANSparkMax m_rightFlywheelSparkMax = new CANSparkMax(12, MotorType.kBrushless);
     CANSparkMax m_leftFlywheelSparkMax = new CANSparkMax(11, MotorType.kBrushless); // right .4 and left .5 for speaker
-    public boolean FlywheelOn;
-    public void FlywheelVariable(double speed) {
+
+    public void FlywheelVariable(int speed) {
         m_rightFlywheelSparkMax.set(speed);
         m_leftFlywheelSparkMax.set(speed);
     }
@@ -18,5 +18,4 @@ public class FlywheelSubsystem extends SubsystemBase {
         m_rightFlywheelSparkMax.set(0);
         m_leftFlywheelSparkMax.set(0);
     }
-
 }

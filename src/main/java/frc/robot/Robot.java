@@ -109,8 +109,7 @@ public class Robot extends LoggedRobot {
 
     m_robotContainer.intakeSubsystem.IntakeStop();
     armPivot.initPivot();
-    flywheelSubsystem.FlywheelStop();
-    flywheelSubsystem.FlywheelOn = false;
+
     m_chooser.addOption("1. pick up cone inside robot and drive out of comm", kAuton1);
     m_chooser.setDefaultOption("2. Drop cone on mid and drive out of comm", kAuton2);
     // m_chooser.addOption("3. Drop cone on mid, drive and balance on charge
@@ -215,14 +214,6 @@ public class Robot extends LoggedRobot {
       m_robotContainer.intakeSubsystem.IntakeOutput();
       CommandScheduler.getInstance()
           .schedule((new IntakeOutputCommand(m_robotContainer.intakeSubsystem)));
-    }
-
-    if (m_robotContainer.m_operatorController.getRawButtonPressed(9)) {
-      flywheelSubsystem.FlywheelVariable(.4);
-      flywheelSubsystem.FlywheelOn = true;
-    } else if (m_robotContainer.m_operatorController.getRawButtonPressed(10)) {
-      flywheelSubsystem.FlywheelStop();
-      flywheelSubsystem.FlywheelOn = false;
     }
 
     if (m_robotContainer.m_operatorController.getRawButton(kArmSetpoint1Button_A)) {
