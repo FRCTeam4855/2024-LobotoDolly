@@ -37,13 +37,13 @@ public final class Constants {
 
     
 
-  public static final double kArmSetpoint1 = 0; // Intake
-  public static final double kArmSetpoint2 = 8.2; // Speaker
-  public static final double kArmSetpoint3 = 100; // Amp
-  public static final double kArmSetpoint4 = 90; // Start Pos
-  public static final double kArmSetpoint5 = 420; // Trap
-  public static final double kArmPivotSlop = 5; // acceptable range for arm extension setpoints
-
+    public static final double kArmSetpoint1 = .5; // Intake
+    public static final double kArmSetpoint2 = 8.2; // Speaker
+    public static final double kArmSetpoint3 = 100; // Amp
+    public static final double kArmSetpoint4 = 90; // Start Pos
+    public static final double kArmSetpoint5 = 90; // Trap
+    public static final double kArmPivotSlop = 0; // acceptable range for arm extension setpoints
+    
   public enum ArmSetpoint {
     One, Two, Three, Four, Five
   }
