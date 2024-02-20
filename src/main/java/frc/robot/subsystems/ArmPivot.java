@@ -4,7 +4,10 @@ import com.revrobotics.SparkAbsoluteEncoder;
 import com.revrobotics.SparkPIDController;
 import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
-// import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
+//import edu.wpi.first.math.controller.ArmFeedforward;
+import frc.robot.AdjArmFeedforward;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ArmSetpoint;
 import frc.robot.Constants.ModuleConstants;
@@ -16,7 +19,16 @@ public class ArmPivot extends SubsystemBase {
   double pivotSetpoint;
   CANSparkMax m_armPivotOne = new CANSparkMax(9, MotorType.kBrushless);
   SparkPIDController pivotPIDController = m_armPivotOne.getPIDController();
-
+  double kS = .001;
+  double kG = .20;
+  double kV = 5.85;
+  //double kP = .0175; 
+  double kP = .01; 
+  double kI = 0; 
+  double kD = 0; 
+  AdjArmFeedforward feedforward = new AdjArmFeedforward(kS, kG, kV);
+  //ArmFeedforward feedforward = new ArmFeedforward(0.001, 0.17, 5.85, .02);
+  //ArmFeedforward feedforward = new ArmFeedforward(kS, kG, kV);
 
   //unnecessary manual controls, not needed when using setpoint control
   
@@ -52,9 +64,10 @@ public class ArmPivot extends SubsystemBase {
     m_armPivotOne.restoreFactoryDefaults();
     m_armPivotOne.setIdleMode(IdleMode.kBrake);
     SparkAbsoluteEncoder m_pivotEncoder = m_armPivotOne.getAbsoluteEncoder(Type.kDutyCycle);
-    double kP = .0175; 
-    double kI = 0; 
-    double kD = 0; 
+    //double kP = .0175; 
+    //double kP = .01; 
+    //double kI = 0; 
+    //double kD = 0; 
     double kIz = 0;
     double kFF = .0021;
     double kMaxOutput = 1; 
@@ -72,7 +85,15 @@ public class ArmPivot extends SubsystemBase {
     pivotPIDController.setPositionPIDWrappingEnabled(true);
     pivotPIDController.setPositionPIDWrappingMinInput(0);
     pivotPIDController.setPositionPIDWrappingMaxInput(360);
-    m_armPivotOne.setSmartCurrentLimit(40);
+    m_armPivotOne.setSmartCurrentLimit(30);
+
+    SmartDashboard.putNumber("kS", kS);
+    SmartDashboard.putNumber("kG", kG);
+    SmartDashboard.putNumber("kV", kV);
+    SmartDashboard.putNumber("FFvalue", 0);
+    SmartDashboard.putNumber("kP", kP);
+    SmartDashboard.putNumber("kI", kI);
+    SmartDashboard.putNumber("kD", kD);
   }
 
   public void setPivotSetpoint(ArmSetpoint armSetpoint) {
@@ -98,6 +119,18 @@ public class ArmPivot extends SubsystemBase {
 
   public void pivotDaArm() {
     // set PID coefficients
+    SmartDashboard.getNumber("kS", kS);
+    SmartDashboard.getNumber("kG", kG);
+    SmartDashboard.getNumber("kV", kV);
+    SmartDashboard.getNumber("kP", kP);
+    SmartDashboard.getNumber("kI", kI);
+    SmartDashboard.getNumber("kD", kD);
+    pivotPIDController.setP(kP);
+    pivotPIDController.setI(kI);
+    pivotPIDController.setD(kD);
+    feedforward.updateArmFeedforward(kS, kG, kV);
+    SmartDashboard.putNumber("FFvalue", feedforward.calculate(Math.toRadians(pivotSetpoint),Math.toRadians(112)));
+    pivotPIDController.setFF(feedforward.calculate(Math.toRadians(pivotSetpoint),Math.toRadians(112)));
     pivotPIDController.setReference(pivotSetpoint, CANSparkMax.ControlType.kPosition);
     // SmartDashboard.putNumber("PivotSetPoint", pivotSetpoint);
     // SmartDashboard.putNumber("PivotVariable", getPivotPostion());

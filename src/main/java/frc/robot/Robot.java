@@ -4,9 +4,6 @@
 
 package frc.robot;
 
-import com.revrobotics.CANSparkMax;
-import com.revrobotics.ColorSensorV3;
-
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.TimedRobot;
@@ -26,6 +23,7 @@ import frc.robot.commands.IntakeStopCommand;
 import frc.robot.subsystems.ArmPivot;
 import frc.robot.subsystems.FlywheelSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
+
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -150,7 +148,7 @@ public class Robot extends TimedRobot {
   @Override
   public void disabledPeriodic() {
 
-    SmartDashboard.putNumber("Proximity", m_robotContainer.intakeSubsystem.m_noteSensor.getProximity());
+    SmartDashboard.putBoolean("Proximity", m_robotContainer.intakeSubsystem.m_noteSensor.get());
 
   }
 
@@ -198,7 +196,7 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
 
-    SmartDashboard.putNumber("Proximity", m_robotContainer.intakeSubsystem.m_noteSensor.getProximity());
+    SmartDashboard.putBoolean("Proximity", m_robotContainer.intakeSubsystem.m_noteSensor.get());
 
     if (m_robotContainer.m_operatorController.getRawButton(5) && m_robotContainer.intakeSubsystem.IntakeSpeed != 0) {
       m_robotContainer.intakeSubsystem.IntakeStop();

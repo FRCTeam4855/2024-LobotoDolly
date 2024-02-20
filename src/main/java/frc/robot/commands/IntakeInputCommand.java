@@ -20,7 +20,7 @@ public class IntakeInputCommand extends Command {
     }
 
     public boolean isFinished() {
-        if (Intake.m_noteSensor.getProximity() >= 300 || Intake.IntakeSpeed <= 0) {
+        if ( !Intake.m_noteSensor.get()  || Intake.IntakeSpeed <= 0) {
             return true;
         } else {
             return false;
