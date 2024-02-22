@@ -22,18 +22,21 @@ public class IntakeSubsystem extends SubsystemBase {
     public IntakeSubsystem() {
         m_intakeSparkMax = new CANSparkMax(10, MotorType.kBrushless);
         // m_intakePIDController = m_intakeSparkMax.getPIDController();
-        m_noteSensor = new DigitalInput(10);
+        m_noteSensor = new DigitalInput(0);
     }
 
     public void IntakeInput() {
+        m_intakeSparkMax.set(.5);
         IntakeSpeed = .5;
     }
 
     public void IntakeOutput() {
+        m_intakeSparkMax.set(-.5);
         IntakeSpeed = -.5;
     }
 
     public void IntakeStop() {
+        m_intakeSparkMax.set(0);
         IntakeSpeed = 0;
     }
 

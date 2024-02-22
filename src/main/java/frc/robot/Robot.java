@@ -17,13 +17,12 @@ import static frc.robot.Constants.*;
 
 import frc.robot.Constants.ArmSetpoint;
 import frc.robot.commands.ArmSetpointCommand;
-import frc.robot.commands.IntakeInputCommand;
-import frc.robot.commands.IntakeOutputCommand;
+import frc.robot.commands.IntakePickupCommand;
+import frc.robot.commands.IntakeDropCommand;
 import frc.robot.commands.IntakeStopCommand;
 import frc.robot.subsystems.ArmPivot;
 import frc.robot.subsystems.FlywheelSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
-
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -198,20 +197,19 @@ public class Robot extends TimedRobot {
 
     SmartDashboard.putBoolean("Proximity", m_robotContainer.intakeSubsystem.m_noteSensor.get());
 
-    if (m_robotContainer.m_operatorController.getRawButton(5) && m_robotContainer.intakeSubsystem.IntakeSpeed != 0) {
-      m_robotContainer.intakeSubsystem.IntakeStop();
+    if (m_robotContainer.m_operatorController.getRawButtonPressed(5)) {
       CommandScheduler.getInstance()
-          .schedule((new IntakeStopCommand(m_robotContainer.intakeSubsystem)));
-    } else if (m_robotContainer.m_operatorController.getRawButton(5)) {
-      m_robotContainer.intakeSubsystem.IntakeInput();
+          .schedule((new IntakePickupCommand(m_robotContainer.intakeSubsystem)));
+    }
+
+    if (m_robotContainer.m_operatorController.getRawButtonPressed(7)) {
       CommandScheduler.getInstance()
           .schedule((new IntakeStopCommand(m_robotContainer.intakeSubsystem)));
     }
 
-    if (m_robotContainer.m_operatorController.getRawButton(6)) {
-      m_robotContainer.intakeSubsystem.IntakeOutput();
+    if (m_robotContainer.m_operatorController.getRawButtonPressed(6)) {
       CommandScheduler.getInstance()
-          .schedule((new IntakeOutputCommand(m_robotContainer.intakeSubsystem)));
+          .schedule((new IntakeDropCommand(m_robotContainer.intakeSubsystem)));
     }
 
     if (m_robotContainer.m_operatorController.getRawButton(kArmSetpoint1Button_A)) {
