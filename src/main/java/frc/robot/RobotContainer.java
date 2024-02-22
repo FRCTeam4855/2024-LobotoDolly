@@ -37,7 +37,7 @@ import frc.robot.subsystems.IntakeSubsystem;
  */
 public class RobotContainer {
         // The robot's subsystems
-        private final DriveSubsystem m_robotDrive = new DriveSubsystem();
+        public final DriveSubsystem m_robotDrive = new DriveSubsystem();
 
         // The driver's controller
         XboxController m_driverController = new XboxController(kDriverControllerPort);
@@ -64,7 +64,7 @@ public class RobotContainer {
                                                                                 kDriveDeadband),
                                                                 -MathUtil.applyDeadband(m_driverController.getRightX(),
                                                                                 kDriveDeadband),
-                                                                true, true),
+                                                                false, true),
                                                 m_robotDrive));
         }
 
@@ -135,8 +135,8 @@ public class RobotContainer {
                 Trajectory driveForwards = TrajectoryGenerator.generateTrajectory(
                                 new Pose2d(0, 0, new Rotation2d(0)),
                                 List.of(new Translation2d(1, 0)),
-                                new Pose2d(1, -1, new Rotation2d(Math.toRadians(270))),
-                                config);
+                                new Pose2d(1, -1, new Rotation2d(Math.toRadians(-90))),
+                                config); //easy auton this year, we bouta shoot, then we bouta back it up
                 var thetaController = new ProfiledPIDController(
                                 AutoConstants.kPThetaController, 0, 0, AutoConstants.kThetaControllerConstraints);
                 thetaController.enableContinuousInput(-Math.PI, Math.PI);

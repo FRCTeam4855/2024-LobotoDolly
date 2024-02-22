@@ -203,4 +203,5 @@ public class AdjArmFeedforward implements ProtobufSerializable, StructSerializab
   public double minAchievableAcceleration(double maxVoltage, double angle, double velocity) {
     return maxAchievableAcceleration(-maxVoltage, angle, velocity);
   }
+
 }
