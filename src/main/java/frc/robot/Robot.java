@@ -131,7 +131,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotPeriodic() {
-
+    SmartDashboard.putNumber("ArmEncoder", armPivot.getPivotPostion());
     // SmartDashboard.putNumber("Proximity", Intake.noteSensor.getProximity());
 
     // Runs the Scheduler. This is responsible for polling buttons, adding
