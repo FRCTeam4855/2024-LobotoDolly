@@ -15,7 +15,7 @@ public class IntakeStopCommand extends Command {
     }
 
     public void execute() {
-        Intake.IntakeRun();
+        Intake.IntakeStop();
     }
 
     public boolean isFinished() {
