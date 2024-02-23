@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import static frc.robot.Constants.*;
+import edu.wpi.first.wpilibj.XboxController;
 
 import frc.robot.Constants.ArmSetpoint;
 import frc.robot.commands.ArmSetpointCommand;
@@ -62,6 +63,7 @@ public class Robot extends TimedRobot {
   ArmSetpoint currentSetpoint;
   ArmPivot armPivot = new ArmPivot();
 
+
   @Override
   public void robotInit() {
     // intakeSubsystem = new IntakeSubsystem();
@@ -102,6 +104,7 @@ public class Robot extends TimedRobot {
 
     m_robotContainer.intakeSubsystem.IntakeStop();
     armPivot.initPivot();
+    flywheelSubsystem.initFlywheel();
 
     m_chooser.addOption("1. pick up cone inside robot and drive out of comm", kAuton1);
     m_chooser.setDefaultOption("2. Drop cone on mid and drive out of comm", kAuton2);
@@ -141,6 +144,9 @@ public class Robot extends TimedRobot {
     CommandScheduler.getInstance().run();
     SmartDashboard.putNumber("GyroYaw", m_robotContainer.m_robotDrive.m_gyro.getYaw());
     SmartDashboard.putNumber("GyroAngle", m_robotContainer.m_robotDrive.m_gyro.getAngle());
+    SmartDashboard.putNumber("FlywheelRunning?", flywheelSubsystem.runFlywheel);
+    SmartDashboard.putNumber("Flywheel Setpoint", flywheelSubsystem.setpoint);
+    flywheelSubsystem.periodicFlywheel();
   }
 
   /** This function is called once each time the robot enters Disabled mode. */
@@ -240,6 +246,11 @@ public class Robot extends TimedRobot {
           .schedule((new ArmSetpointCommand(armPivot, ArmSetpoint.Four, currentSetpoint)));
       currentSetpoint = ArmSetpoint.Four;
 
+    }
+    if (m_robotContainer.m_operatorController.getRawButton(8)) {
+      flywheelSubsystem.runFlywheel = 1;
+    } else {
+      flywheelSubsystem.runFlywheel = 0;
     }
 
   }
