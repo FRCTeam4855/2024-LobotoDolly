@@ -25,6 +25,8 @@ import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.FlywheelSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 
+
+
 /**
  * The VM is configured to automatically run this class, and to call the
  * functions corresponding to
@@ -36,7 +38,7 @@ import frc.robot.subsystems.IntakeSubsystem;
  */
 
 public class Robot extends TimedRobot {
-
+  //public boolean intakeSensor, useSensor;
   private Command m_autonomousCommand;
 
   private RobotContainer m_robotContainer;
@@ -48,7 +50,6 @@ public class Robot extends TimedRobot {
    * for any
    * initialization code.
    */
-
   // IntakeSubsystem intakeSubsystem;
   private static final String kAuton1 = "1. Drive Forward";
   private static final String kAuton2 = "2. Back, Drop, Forward";
@@ -61,6 +62,8 @@ public class Robot extends TimedRobot {
   public SendableChooser<String> m_chooser = new SendableChooser<>();
   ArmSetpoint currentSetpoint;
   ArmPivot armPivot = new ArmPivot();
+  
+  
 
   @Override
   public void robotInit() {
@@ -141,6 +144,8 @@ public class Robot extends TimedRobot {
     CommandScheduler.getInstance().run();
     SmartDashboard.putNumber("GyroYaw", m_robotContainer.m_robotDrive.m_gyro.getYaw());
     SmartDashboard.putNumber("GyroAngle", m_robotContainer.m_robotDrive.m_gyro.getAngle());
+
+    m_robotContainer.intakeSubsystem.intakeSensor=m_robotContainer.intakeSubsystem.m_noteSensor.get();
   }
 
   /** This function is called once each time the robot enters Disabled mode. */
@@ -151,7 +156,8 @@ public class Robot extends TimedRobot {
   @Override
   public void disabledPeriodic() {
 
-    SmartDashboard.putBoolean("Proximity", m_robotContainer.intakeSubsystem.m_noteSensor.get());
+    //SmartDashboard.putBoolean("Proximity", m_robotContainer.intakeSubsystem.m_noteSensor.get());
+    SmartDashboard.putBoolean("Proximity", m_robotContainer.intakeSubsystem.intakeSensor);
 
   }
 
@@ -201,7 +207,8 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
 
-    SmartDashboard.putBoolean("Proximity", m_robotContainer.intakeSubsystem.m_noteSensor.get());
+    //SmartDashboard.putBoolean("Proximity", m_robotContainer.intakeSubsystem.m_noteSensor.get());
+    SmartDashboard.putBoolean("Proximity", m_robotContainer.intakeSubsystem.intakeSensor);
 
     if (m_robotContainer.m_operatorController.getRawButtonPressed(5)) {
       CommandScheduler.getInstance()

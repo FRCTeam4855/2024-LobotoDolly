@@ -16,7 +16,8 @@ public class IntakeSubsystem extends SubsystemBase {
     // private final SparkPIDController m_intakePIDController;
     public DigitalInput m_noteSensor;
     public double IntakeSpeed = 0;
-
+    public static boolean intakeSensor;
+    public boolean useSensor;
 
     // int proximity = noteSensor.getProximity();
     public IntakeSubsystem() {
