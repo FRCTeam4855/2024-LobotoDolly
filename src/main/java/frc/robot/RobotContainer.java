@@ -47,6 +47,7 @@ public class RobotContainer {
         
         IntakeSubsystem intakeSubsystem;
         FlywheelSubsystem flywheelSubsystem;
+        public boolean fieldOriented = false;
 
         /**
          * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -70,7 +71,7 @@ public class RobotContainer {
                                                                                 kDriveDeadband),
                                                                 -MathUtil.applyDeadband(m_driverController.getRightX(),
                                                                                 kDriveDeadband),
-                                                                false, true),
+                                                                fieldOriented, true),
                                                 m_robotDrive));
         }
 

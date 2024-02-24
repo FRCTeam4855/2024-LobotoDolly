@@ -29,7 +29,7 @@ public class FlywheelSubsystem extends SubsystemBase {
     private RelativeEncoder m_leftFlywheelEncoder;
     public int runFlywheel;
     public double setpoint;
-    private boolean flywheelRunning;
+    public boolean flywheelRunning;
 
     public FlywheelSubsystem() {
         m_rightFlywheelSparkMax = new CANSparkMax(12, MotorType.kBrushless);
@@ -119,12 +119,12 @@ public class FlywheelSubsystem extends SubsystemBase {
         m_rightFlywheelSparkMax.set(.5);
         m_leftFlywheelSparkMax.set(.5);
         flywheelRunning=true;
-      } else {
-          //m_rightFlywheelPIDController.setReference(0, CANSparkMax.ControlType.kVelocity);
-          //m_leftFlywheelPIDController.setReference(0, CANSparkMax.ControlType.kVelocity);
-        m_rightFlywheelSparkMax.set(0);
-        m_leftFlywheelSparkMax.set(0);
-        flywheelRunning=false;
+      // } else {
+      //     //m_rightFlywheelPIDController.setReference(0, CANSparkMax.ControlType.kVelocity);
+      //     //m_leftFlywheelPIDController.setReference(0, CANSparkMax.ControlType.kVelocity);
+      //   m_rightFlywheelSparkMax.set(0);
+      //   m_leftFlywheelSparkMax.set(0);
+      //   flywheelRunning=false;
       }
       SmartDashboard.putNumber("Right Flywheel Speed", m_rightFlywheelEncoder.getVelocity());
       SmartDashboard.putNumber("Left Flywheel Speed", m_leftFlywheelEncoder.getVelocity());
@@ -135,6 +135,7 @@ public class FlywheelSubsystem extends SubsystemBase {
       //m_leftFlywheelPIDController.setReference(0, CANSparkMax.ControlType.kVelocity);
       m_rightFlywheelSparkMax.set(0);
       m_leftFlywheelSparkMax.set(0);
+      flywheelRunning=false;
     }
     
     public void FlywheelLaunch(){

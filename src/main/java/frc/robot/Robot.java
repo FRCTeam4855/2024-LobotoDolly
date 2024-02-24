@@ -29,7 +29,6 @@ import frc.robot.subsystems.FlywheelSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import edu.wpi.first.math.filter.Debouncer;
 
-
 /**
  * The VM is configured to automatically run this class, and to call the
  * functions corresponding to
@@ -41,7 +40,7 @@ import edu.wpi.first.math.filter.Debouncer;
  */
 
 public class Robot extends TimedRobot {
-  //public boolean intakeSensor, useSensor;
+  // public boolean intakeSensor, useSensor;
   private Command m_autonomousCommand;
 
   private RobotContainer m_robotContainer;
@@ -65,9 +64,6 @@ public class Robot extends TimedRobot {
   public SendableChooser<String> m_chooser = new SendableChooser<>();
   ArmSetpoint currentSetpoint;
   ArmPivot armPivot = new ArmPivot();
-  
-  
-
 
   @Override
   public void robotInit() {
@@ -105,11 +101,11 @@ public class Robot extends TimedRobot {
     m_robotContainer = new RobotContainer();
     m_robotContainer.m_robotDrive.m_gyro.reset();
     // driveSubsystem = new DriveSubsystem();
-    //flywheelSubsystem = new FlywheelSubsystem();
+    // flywheelSubsystem = new FlywheelSubsystem();
 
     m_robotContainer.intakeSubsystem.IntakeStop();
     armPivot.initPivot();
-    //flywheelSubsystem.FlywheelStop();
+    // flywheelSubsystem.FlywheelStop();
 
     m_chooser.addOption("1. pick up cone inside robot and drive out of comm", kAuton1);
     m_chooser.setDefaultOption("2. Drop cone on mid and drive out of comm", kAuton2);
@@ -149,12 +145,13 @@ public class Robot extends TimedRobot {
     CommandScheduler.getInstance().run();
     SmartDashboard.putNumber("GyroYaw", m_robotContainer.m_robotDrive.m_gyro.getYaw());
     SmartDashboard.putNumber("GyroAngle", m_robotContainer.m_robotDrive.m_gyro.getAngle());
+    SmartDashboard.putBoolean("Field Oriented", m_robotContainer.fieldOriented);
 
-    //m_robotContainer.intakeSubsystem.intakeSensor=m_robotContainer.intakeSubsystem.m_noteSensor.get();
+    // m_robotContainer.intakeSubsystem.intakeSensor=m_robotContainer.intakeSubsystem.m_noteSensor.get();
 
-    //SmartDashboard.putNumber("FlywheelRunning?", flywheelSubsystem.runFlywheel);
-    //SmartDashboard.putNumber("Flywheel Setpoint", flywheelSubsystem.setpoint);
-    //flywheelSubsystem.periodicFlywheel();
+    // SmartDashboard.putNumber("FlywheelRunning?", flywheelSubsystem.runFlywheel);
+    // SmartDashboard.putNumber("Flywheel Setpoint", flywheelSubsystem.setpoint);
+    // flywheelSubsystem.periodicFlywheel();
   }
 
   /** This function is called once each time the robot enters Disabled mode. */
@@ -165,7 +162,8 @@ public class Robot extends TimedRobot {
   @Override
   public void disabledPeriodic() {
 
-    //SmartDashboard.putBoolean("Proximity", m_robotContainer.intakeSubsystem.m_noteSensor.get());
+    // SmartDashboard.putBoolean("Proximity",
+    // m_robotContainer.intakeSubsystem.m_noteSensor.get());
     SmartDashboard.putBoolean("Proximity", m_robotContainer.intakeSubsystem.intakeSensor);
 
   }
@@ -176,22 +174,22 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousInit() {
-    m_robotContainer.m_robotDrive.m_gyro.reset();
-    m_autoSelected = m_chooser.getSelected(); // pulls auton option selected from shuffleboard
-    SmartDashboard.putString("Current Auton:", m_autoSelected);
+    // m_robotContainer.m_robotDrive.m_gyro.reset();
+    // m_autoSelected = m_chooser.getSelected(); // pulls auton option selected from shuffleboard
+    // SmartDashboard.putString("Current Auton:", m_autoSelected);
 
-    switch (m_autoSelected) {
+    // switch (m_autoSelected) {
 
-      case kAuton1:
-        m_autonomousCommand = m_robotContainer.getAutonomousCommand();
-        CommandScheduler.getInstance()
-            .schedule(m_autonomousCommand);
-      case kAuton2:
-        m_autonomousCommand = m_robotContainer.getSquareCommand();
-        CommandScheduler.getInstance()
-            .schedule(m_autonomousCommand);
+    //   case kAuton1:
+    //     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
+    //     CommandScheduler.getInstance()
+    //         .schedule(m_autonomousCommand);
+    //   case kAuton2:
+    //     m_autonomousCommand = m_robotContainer.getSquareCommand();
+    //     CommandScheduler.getInstance()
+    //         .schedule(m_autonomousCommand);
 
-    }
+    // }
   }
 
   /** This function is called periodically during autonomous. */
@@ -216,8 +214,20 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
 
-    //SmartDashboard.putBoolean("Proximity", m_robotContainer.intakeSubsystem.m_noteSensor.get());
+    // SmartDashboard.putBoolean("Proximity",
+    // m_robotContainer.intakeSubsystem.m_noteSensor.get());
     SmartDashboard.putBoolean("Proximity", m_robotContainer.intakeSubsystem.intakeSensor);
+
+    if (m_robotContainer.m_driverController.getRawButtonPressed(5)) {
+      if (m_robotContainer.fieldOriented == true) {
+        m_robotContainer.fieldOriented = false;
+      } else {
+        m_robotContainer.fieldOriented = true;
+      }
+    }
+    if (m_robotContainer.m_driverController.getRawButtonPressed(8)) {
+      m_robotContainer.m_robotDrive.m_gyro.reset();
+    }
 
     if (m_robotContainer.m_operatorController.getRawButtonPressed(5)) {
       CommandScheduler.getInstance()
@@ -259,26 +269,27 @@ public class Robot extends TimedRobot {
     }
     if (m_robotContainer.m_operatorController.getLeftTriggerAxis() > .5) {
       CommandScheduler.getInstance()
-        .schedule((new FlywheelStartCommand(m_robotContainer.flywheelSubsystem)));
+          .schedule((new FlywheelStartCommand(m_robotContainer.flywheelSubsystem)));
     } else {
-         CommandScheduler.getInstance()
-        .schedule((new FlywheelStopCommand(m_robotContainer.flywheelSubsystem)));
+      CommandScheduler.getInstance()
+          .schedule((new FlywheelStopCommand(m_robotContainer.flywheelSubsystem)));
     }
-    //if (m_robotContainer.m_operatorController.getRawButton(8)) {
-    //  CommandScheduler.getInstance()
-    //    .schedule((new FlywheelStartCommand(m_robotContainer.flywheelSubsystem)));
-      //flywheelSubsystem.runFlywheel = 1;
-      //  } else {
-      //flywheelSubsystem.runFlywheel = 0;
-    if (m_robotContainer.m_operatorController.getRightTriggerAxis() > .5) {
-      m_robotContainer.intakeSubsystem.m_intakeSparkMax.set(.5);
-      //CommandScheduler.getInstance()
-      //  .schedule((new FlywheelStartCommand(m_robotContainer.flywheelSubsystem)));
-      //flywheelSubsystem.runFlywheel = 1;
-      //  } else {
-      //flywheelSubsystem.runFlywheel = 0;
-    }
-  }
+     if (m_robotContainer.m_operatorController.getRawButtonPressed(8)) {
+     CommandScheduler.getInstance()
+     .schedule((new FlywheelStartCommand(m_robotContainer.flywheelSubsystem)));
+    //  flywheelSubsystem.flywheelRunning = true;
+    //  } else {
+    //  flywheelSubsystem.flywheelRunning = false;
+     }
+     if (m_robotContainer.m_operatorController.getRightTriggerAxis() > .5) {
+       m_robotContainer.intakeSubsystem.m_intakeSparkMax.set(.5);
+  //      CommandScheduler.getInstance()
+  //      .schedule((new FlywheelStartCommand(m_robotContainer.flywheelSubsystem)));
+  //      flywheelSubsystem.flywheelRunning = true;
+  //      } else {
+  //      flywheelSubsystem.flywheelRunning = false;
+     }
+   }
 
   @Override
   public void testInit() {
