@@ -40,7 +40,7 @@ public final class Constants {
     public static final double kArmSetpoint1 = .5; // Intake
     public static final double kArmSetpoint2 = 8.2; // Speaker
     public static final double kArmSetpoint3 = 90; // Amp
-    public static final double kArmSetpoint4 = 45; // Start Pos
+    public static final double kArmSetpoint4 = 15; // Transit Pos
     public static final double kArmSetpoint5 = 90; // Trap
     public static final double kArmPivotSlop = 0; // acceptable range for arm extension setpoints
 
