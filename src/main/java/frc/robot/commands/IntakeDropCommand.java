@@ -11,7 +11,7 @@ public class IntakeDropCommand extends Command {
     }
 
     public void initialize() {
-        
+
     }
 
     public void execute() {

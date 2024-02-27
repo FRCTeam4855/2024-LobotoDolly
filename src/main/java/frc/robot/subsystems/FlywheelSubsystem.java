@@ -148,7 +148,7 @@ public class FlywheelSubsystem extends SubsystemBase {
       //new WaitUntilCommand(FlywheelCheckCommand());
     }
 
-    public boolean FlywheelCheckCommand(){
+    public boolean FlywheelCheck(){
       if(Math.abs(setpoint - m_rightFlywheelEncoder.getVelocity()) < 50) {
         if(Math.abs(setpoint - m_leftFlywheelEncoder.getVelocity()) < 50) {
           return true;
