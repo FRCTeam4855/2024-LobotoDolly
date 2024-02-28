@@ -20,6 +20,7 @@ import frc.robot.Constants.DriveConstants;
 import frc.robot.subsystems.SwerveUtils;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import com.kauailabs.navx.frc.AHRS;
+import edu.wpi.first.wpilibj.SPI;
 
 public class DriveSubsystem extends SubsystemBase {
   // Create MAXSwerveModules

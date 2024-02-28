@@ -26,9 +26,10 @@ public final class Constants {
   // kBack(7),
   // kStart(8);
 
-  public static final int kDriverControllerPort = 0;
-  public static final double kDriveDeadband = 0.17;
-  public static final int kOperatorControllerPort = 1;
+  public static final int kLeftDriverControllerPort = 0;
+  public static final int kRightDriverControllerPort = 1;
+  public static final double kDriveDeadband = 0.075;
+  public static final int kOperatorControllerPort = 2;
   public static final int kArmSetpoint1Button_A = 1;
   public static final int kArmSetpoint2Button_B = 2;
   public static final int kArmSetpoint3Button_X = 3;

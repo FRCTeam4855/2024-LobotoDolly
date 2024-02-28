@@ -9,7 +9,6 @@ public class ArmSetpointCommand extends Command {
     private ArmPivot armPivot;
     private ArmSetpoint startArmSetpoint;
     private ArmSetpoint goalArmSetpoint;
-
     public ArmSetpointCommand(ArmPivot armPivot, ArmSetpoint goalArmSetpoint,
             ArmSetpoint startArmSetpoint) {
 

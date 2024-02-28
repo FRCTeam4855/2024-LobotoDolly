@@ -220,14 +220,14 @@ public class Robot extends TimedRobot {
     // m_robotContainer.intakeSubsystem.m_noteSensor.get());
     SmartDashboard.putBoolean("Proximity", m_robotContainer.intakeSubsystem.intakeSensor);
     //Driver Controls
-    if (m_robotContainer.m_driverController.getRawButtonPressed(kFieldOrientedToggle_LB)) { //Toggles Field Oriented Mode
+    if (m_robotContainer.m_driverControllerRight.getRawButtonPressed(2)) { //Toggles Field Oriented Mode
       if (m_robotContainer.fieldOriented == true) {
         m_robotContainer.fieldOriented = false;
       } else {
         m_robotContainer.fieldOriented = true;
       }
     }
-    if (m_robotContainer.m_driverController.getRawButtonPressed(kGyroReset_Start)) { //Resets the Gyro
+    if (m_robotContainer.m_driverControllerLeft.getRawButtonPressed(2)) { //Resets the Gyro
       m_robotContainer.m_robotDrive.m_gyro.reset();
     }
     //Operator Controls
