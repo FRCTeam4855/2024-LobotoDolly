@@ -41,9 +41,9 @@ public final class Constants {
   public static final int kFlywheelStart_Start = 8;
 
   public static final double kArmSetpoint1 = .05; // Intake
-  public static final double kArmSetpoint2 = 11; // Speaker
+  public static final double kArmSetpoint2 = 15; // Speaker
   public static final double kArmSetpoint3 = 90; // Amp
-  public static final double kArmSetpoint4 = 15; // Start Pos
+  public static final double kArmSetpoint4 = 15; // Transit
   public static final double kArmSetpoint5 = 90; // Trap
   public static final double kArmPivotSlop = 0; // acceptable range for arm extension setpoints
 

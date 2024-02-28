@@ -6,6 +6,7 @@ import com.revrobotics.SparkPIDController;
 
 import java.util.function.BooleanSupplier;
 
+import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -36,6 +37,8 @@ public class FlywheelSubsystem extends SubsystemBase {
         m_leftFlywheelSparkMax = new CANSparkMax(11, MotorType.kBrushless);
         m_rightFlywheelSparkMax.restoreFactoryDefaults();
         m_leftFlywheelSparkMax.restoreFactoryDefaults();
+        m_rightFlywheelSparkMax.setIdleMode(IdleMode.kCoast);
+        m_leftFlywheelSparkMax.setIdleMode(IdleMode.kCoast);
         m_rightFlywheelPIDController = m_rightFlywheelSparkMax.getPIDController();
         m_leftFlywheelPIDController = m_leftFlywheelSparkMax.getPIDController();
         m_rightFlywheelEncoder = m_rightFlywheelSparkMax.getEncoder();

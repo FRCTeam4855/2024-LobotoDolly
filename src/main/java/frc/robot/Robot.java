@@ -22,6 +22,7 @@ import frc.robot.Constants.ArmSetpoint;
 import frc.robot.commands.ArmSetpointCommand;
 import frc.robot.commands.FlywheelLaunchCommand;
 import frc.robot.commands.IntakePickupCommand;
+import frc.robot.commands.IntakeDeliverCommand;
 import frc.robot.commands.IntakeDropCommand;
 import frc.robot.commands.IntakeStopCommand;
 import frc.robot.commands.FlywheelStartCommand;
@@ -152,7 +153,7 @@ public class Robot extends TimedRobot {
 
     // m_robotContainer.intakeSubsystem.intakeSensor=m_robotContainer.intakeSubsystem.m_noteSensor.get();
 
-    // SmartDashboard.putNumber("FlywheelRunning?", flywheelSubsystem.runFlywheel);
+    SmartDashboard.putNumber("FlywheelRunning?", m_robotContainer.flywheelSubsystem.runFlywheel);
     // SmartDashboard.putNumber("Flywheel Setpoint", flywheelSubsystem.setpoint);
     // flywheelSubsystem.periodicFlywheel();
   }
@@ -263,17 +264,21 @@ public class Robot extends TimedRobot {
       CommandScheduler.getInstance()
           .schedule((new ArmSetpointCommand(armPivot, ArmSetpoint.Three, currentSetpoint))
           .andThen(new FlywheelStartCommand(m_robotContainer.flywheelSubsystem))
-          .andThen(new IntakePickupCommand(m_robotContainer.intakeSubsystem)));
+          .andThen(new IntakeDeliverCommand(m_robotContainer.intakeSubsystem)));
+          //.andThen(new FlywheelStopCommand(m_robotContainer.flywheelSubsystem))
+          //.andThen(new IntakeStopCommand(m_robotContainer.intakeSubsystem)));
       currentSetpoint = ArmSetpoint.Three;
 
     }
     if (m_robotContainer.m_operatorController.getRawButton(kArmSetpoint4Button_Y)) { //Goes to speaker position and runs the flywheel and intake
       CommandScheduler.getInstance().schedule(
-          (new ArmSetpointCommand(armPivot, ArmSetpoint.Four, currentSetpoint))
-              .andThen(new FlywheelLaunchCommand(m_robotContainer.flywheelSubsystem))
-              .andThen(new IntakePickupCommand(m_robotContainer.intakeSubsystem)));
+          (new ArmSetpointCommand(armPivot, ArmSetpoint.Two, currentSetpoint))
+              .andThen(new FlywheelStartCommand(m_robotContainer.flywheelSubsystem))
+              .andThen(new WaitCommand(2))
+              .andThen(new IntakeDeliverCommand(m_robotContainer.intakeSubsystem)));
+              //.andThen(new FlywheelStopCommand(m_robotContainer.flywheelSubsystem))
+              //.andThen(new IntakeStopCommand(m_robotContainer.intakeSubsystem)));
       currentSetpoint = ArmSetpoint.Four;
-
     }
     //if (m_robotContainer.m_operatorController.getLeftTriggerAxis() > .5) { //Controls the flywheel
      // if(!m_robotContainer.flywheelSubsystem.flywheelRunning) {

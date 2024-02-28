@@ -19,7 +19,7 @@ import com.revrobotics.SparkAbsoluteEncoder.Type;
 import com.revrobotics.SparkPIDController.ArbFFUnits;
 
 public class ArmPivot extends SubsystemBase {
-  double pivotSetpoint;
+  public double pivotSetpoint;
   CANSparkMax m_armPivot = new CANSparkMax(9, MotorType.kBrushless);
   SparkPIDController pivotPIDController = m_armPivot.getPIDController();
   SparkAbsoluteEncoder m_pivotEncoder = m_armPivot.getAbsoluteEncoder(Type.kDutyCycle);
@@ -39,10 +39,9 @@ public class ArmPivot extends SubsystemBase {
   // unnecessary manual controls, not needed when using setpoint control
 
   public double getPivotPosition() {
-    double rawPosition, zeroOffset;
-    rawPosition = m_armPivot.getEncoder().getPosition();
-    zeroOffset = m_pivotEncoder.getZeroOffset();
-    return (rawPosition);
+    double rawPosition;
+    return(m_pivotEncoder.getPosition());
+    //return (rawPosition);
     //return ((rawPosition+zeroOffset)%360);
     // if (rawPosition - zeroOffset >= 0)
     //   return (rawPosition - zeroOffset);
