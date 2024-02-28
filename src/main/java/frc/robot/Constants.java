@@ -40,7 +40,7 @@ public final class Constants {
   public static final int kIntakeDrop_RB = 6;
   public static final int kFlywheelStart_Start = 8;
 
-  public static final double kArmSetpoint1 = .5; // Intake
+  public static final double kArmSetpoint1 = .05; // Intake
   public static final double kArmSetpoint2 = 11; // Speaker
   public static final double kArmSetpoint3 = 90; // Amp
   public static final double kArmSetpoint4 = 15; // Start Pos

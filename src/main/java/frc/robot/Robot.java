@@ -20,6 +20,7 @@ import edu.wpi.first.wpilibj.XboxController;
 
 import frc.robot.Constants.ArmSetpoint;
 import frc.robot.commands.ArmSetpointCommand;
+import frc.robot.commands.FlywheelLaunchCommand;
 import frc.robot.commands.IntakePickupCommand;
 import frc.robot.commands.IntakeDropCommand;
 import frc.robot.commands.IntakeStopCommand;
@@ -47,7 +48,7 @@ public class Robot extends TimedRobot {
 
   private RobotContainer m_robotContainer;
   // private DriveSubsystem driveSubsystem;
-  private FlywheelSubsystem flywheelSubsystem;
+  //private FlywheelSubsystem flywheelSubsystem;
   // private IntakeSubsystem intakeSubsystem;
   /**
    * This function is run when the robot is first started up and should be used
@@ -134,7 +135,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotPeriodic() {
-    SmartDashboard.putNumber("ArmEncoder", armPivot.getPivotPostion());
+    SmartDashboard.putNumber("ArmEncoder", armPivot.getPivotPosition());
     // SmartDashboard.putNumber("Proximity", Intake.noteSensor.getProximity());
 
     // Runs the Scheduler. This is responsible for polling buttons, adding
@@ -261,7 +262,7 @@ public class Robot extends TimedRobot {
     if (m_robotContainer.m_operatorController.getRawButton(kArmSetpoint3Button_X)) { //Goes to amp position and runs the flywheel and intake.
       CommandScheduler.getInstance()
           .schedule((new ArmSetpointCommand(armPivot, ArmSetpoint.Three, currentSetpoint))
-          .andThen(new FlywheelStartCommand(flywheelSubsystem))
+          .andThen(new FlywheelStartCommand(m_robotContainer.flywheelSubsystem))
           .andThen(new IntakePickupCommand(m_robotContainer.intakeSubsystem)));
       currentSetpoint = ArmSetpoint.Three;
 
@@ -269,25 +270,33 @@ public class Robot extends TimedRobot {
     if (m_robotContainer.m_operatorController.getRawButton(kArmSetpoint4Button_Y)) { //Goes to speaker position and runs the flywheel and intake
       CommandScheduler.getInstance().schedule(
           (new ArmSetpointCommand(armPivot, ArmSetpoint.Four, currentSetpoint))
-              .andThen(new FlywheelStartCommand(flywheelSubsystem))
-              .andThen(new WaitCommand(2))
+              .andThen(new FlywheelLaunchCommand(m_robotContainer.flywheelSubsystem))
               .andThen(new IntakePickupCommand(m_robotContainer.intakeSubsystem)));
       currentSetpoint = ArmSetpoint.Four;
 
     }
-    if (m_robotContainer.m_operatorController.getLeftTriggerAxis() > .5) { //Controls the flywheel
-      CommandScheduler.getInstance()
-          .schedule((new FlywheelStartCommand(m_robotContainer.flywheelSubsystem)));
-    } else {
-      CommandScheduler.getInstance()
-          .schedule((new FlywheelStopCommand(m_robotContainer.flywheelSubsystem)));
-    }
+    //if (m_robotContainer.m_operatorController.getLeftTriggerAxis() > .5) { //Controls the flywheel
+     // if(!m_robotContainer.flywheelSubsystem.flywheelRunning) {
+     //   CommandScheduler.getInstance()
+      //    .schedule((new FlywheelStartCommand(m_robotContainer.flywheelSubsystem)));
+      //}
+    //} else {
+      //if(m_robotContainer.flywheelSubsystem.flywheelRunning) {
+       // CommandScheduler.getInstance()
+        //  .schedule((new FlywheelStopCommand(m_robotContainer.flywheelSubsystem)));
+      //}
+    //}
     if (m_robotContainer.m_operatorController.getRawButtonPressed(kFlywheelStart_Start)) {
-      CommandScheduler.getInstance()
+      SmartDashboard.putBoolean("flywheelRunning", m_robotContainer.flywheelSubsystem.flywheelRunning);
+      if(!m_robotContainer.flywheelSubsystem.flywheelRunning) 
+      {
+        CommandScheduler.getInstance()
           .schedule((new FlywheelStartCommand(m_robotContainer.flywheelSubsystem)));
-      // flywheelSubsystem.flywheelRunning = true;
-      // } else {
-      // flywheelSubsystem.flywheelRunning = false;
+          
+      } else {
+        CommandScheduler.getInstance()
+        .schedule((new FlywheelStopCommand(m_robotContainer.flywheelSubsystem)));
+      }
     }
     if (m_robotContainer.m_operatorController.getRightTriggerAxis() > .5) { //Runs the intake
       m_robotContainer.intakeSubsystem.m_intakeSparkMax.set(.5);

@@ -38,14 +38,16 @@ public class ArmPivot extends SubsystemBase {
 
   // unnecessary manual controls, not needed when using setpoint control
 
-  public double getPivotPostion() {
+  public double getPivotPosition() {
     double rawPosition, zeroOffset;
     rawPosition = m_armPivot.getEncoder().getPosition();
     zeroOffset = m_pivotEncoder.getZeroOffset();
-    if (rawPosition - zeroOffset >= 0)
-      return (rawPosition - zeroOffset);
-    else
-      return (rawPosition - zeroOffset + 360);
+    return (rawPosition);
+    //return ((rawPosition+zeroOffset)%360);
+    // if (rawPosition - zeroOffset >= 0)
+    //   return (rawPosition - zeroOffset);
+    // else
+    //   return (rawPosition - zeroOffset + 360);
   }
 
   public void initPivot() {
@@ -104,7 +106,7 @@ public class ArmPivot extends SubsystemBase {
   }
 
   public boolean isPivotAtSetpoint() {
-    return getPivotPostion() - pivotSetpoint <= kArmPivotSlop;
+    return getPivotPosition() - pivotSetpoint <= kArmPivotSlop;
   }
 
   public void pivotDaArm() {
