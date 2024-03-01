@@ -57,8 +57,8 @@ public class Robot extends TimedRobot {
    * initialization code.
    */
   // IntakeSubsystem intakeSubsystem;
-  private static final String kAuton1 = "1. Drive Forward";
-  private static final String kAuton2 = "2. Back, Drop, Forward";
+  private static final String kAuton1 = "1. Drive Backwards";
+  private static final String kAuton2 = "2. Epic 50 Note auto";
   // private static final String kAuton3 = "3. B, D, F, B, Balance";
   // private static final String kAuton4 = "Unused";
   // private static final String kAuton5 = "ZZZ KKEP UNUSED";
@@ -185,14 +185,16 @@ public class Robot extends TimedRobot {
     switch (m_autoSelected) {
 
       case kAuton1:
-        m_autonomousCommand = m_robotContainer.getAutoBackwardsCommand();
+        m_autonomousCommand = m_robotContainer.getFrontSpeakerLeaveCommand();
         CommandScheduler.getInstance()
             .schedule(m_autonomousCommand);
+            default:
+            break;
       case kAuton2:
-        m_autonomousCommand = m_robotContainer.getSquareCommand();
+        m_autonomousCommand = m_robotContainer.getLeftSpeakerLeaveCommand();
         CommandScheduler.getInstance()
             .schedule(m_autonomousCommand);
-
+            break;
     }
   }
 

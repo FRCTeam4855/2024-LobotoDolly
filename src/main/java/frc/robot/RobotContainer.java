@@ -51,7 +51,7 @@ public class RobotContainer {
         FlywheelSubsystem flywheelSubsystem;
         public boolean fieldOriented = false;
 
-        /**
+        /*
          * The container for the robot. Contains subsystems, OI devices, and commands.
          */
         public RobotContainer() {
@@ -67,11 +67,14 @@ public class RobotContainer {
                                 // Turning is controlled by the X axis of the right stick.
                                 new RunCommand(
                                                 () -> m_robotDrive.drive(
-                                                                -MathUtil.applyDeadband(m_leftDriverController.getRawAxis(1),
+                                                                -MathUtil.applyDeadband(
+                                                                                m_leftDriverController.getRawAxis(1),
                                                                                 kDriveDeadband),
-                                                                -MathUtil.applyDeadband(m_leftDriverController.getRawAxis(0),
+                                                                -MathUtil.applyDeadband(
+                                                                                m_leftDriverController.getRawAxis(0),
                                                                                 kDriveDeadband),
-                                                                -MathUtil.applyDeadband(m_rightDriverController.getRawAxis(0),
+                                                                -MathUtil.applyDeadband(
+                                                                                m_rightDriverController.getRawAxis(0),
                                                                                 kDriveDeadband),
                                                                 fieldOriented, true),
                                                 m_robotDrive));
@@ -99,7 +102,7 @@ public class RobotContainer {
          *
          * @return the command to run in autonomous
          */
-        public Command getAutoBackwardsCommand() {
+        public Command getFrontSpeakerLeaveCommand() {
                 // Create config for trajectory
                 TrajectoryConfig config = new TrajectoryConfig(
                                 AutoConstants.kMaxSpeedMetersPerSecond,
@@ -109,8 +112,8 @@ public class RobotContainer {
 
                 Trajectory backwardsTrajectory = TrajectoryGenerator.generateTrajectory(
                                 new Pose2d(0, 0, new Rotation2d(0)),
-                                List.of(new Translation2d(1, 0), new Translation2d(2, 0)),
-                                new Pose2d(3, 0, new Rotation2d(0)),
+                                List.of(),
+                                new Pose2d(1.5, 0, new Rotation2d(0)),
                                 config);
 
                 var thetaController = new ProfiledPIDController(
@@ -135,17 +138,17 @@ public class RobotContainer {
                 return swerveControllerCommand.andThen(() -> m_robotDrive.drive(0, 0, 0, false, false));
         }
 
-        public Command getSquareCommand() {
+        public Command getLeftSpeakerLeaveCommand() {
                 TrajectoryConfig config = new TrajectoryConfig(
-                                AutoConstants.kMaxSpeedMetersPerSecond,
+                                .5,
                                 AutoConstants.kMaxAccelerationMetersPerSecondSquared)
                                 // Add kinematics to ensure max speed is actually obeyed
                                 .setKinematics(DriveConstants.kDriveKinematics);
                 Trajectory driveForwards = TrajectoryGenerator.generateTrajectory(
                                 new Pose2d(0, 0, new Rotation2d(0)),
-                                List.of(new Translation2d(1, 0)),
-                                new Pose2d(1, -1, new Rotation2d(Math.toRadians(-90))),
-                                config); // easy auton this year, we bouta shoot, then we bouta back it up
+                                List.of(),
+                                new Pose2d(1, 0, new Rotation2d(Math.toRadians(-60))),
+                                config); 
                 var thetaController = new ProfiledPIDController(
                                 AutoConstants.kPThetaController, 0, 0, AutoConstants.kThetaControllerConstraints);
                 thetaController.enableContinuousInput(-Math.PI, Math.PI);
@@ -165,7 +168,7 @@ public class RobotContainer {
                 m_robotDrive.resetOdometry(driveForwards.getInitialPose());
 
                 // Run path following command, then stop at the end.
-                return swerveControllerCommand.andThen(() -> m_robotDrive.drive(0, 0, 0, false, false));
+                return swerveControllerCommand.andThen(() -> m_robotDrive.drive(0, 0, 0, true, false));
 
         }
 }
