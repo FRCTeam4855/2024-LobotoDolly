@@ -43,13 +43,14 @@ public final class Constants {
 
   public static final double kArmSetpoint1 = .05; // Intake
   public static final double kArmSetpoint2 = 15; // Speaker
-  public static final double kArmSetpoint3 = 90; // Amp
+  public static final double kArmSetpoint3 = 100; // Amp
   public static final double kArmSetpoint4 = 15; // Transit
   public static final double kArmSetpoint5 = 90; // Trap
+  public static final double kArmSetpoint6 = 27;
   public static final double kArmPivotSlop = 0; // acceptable range for arm extension setpoints
 
   public enum ArmSetpoint {
-    One, Two, Three, Four, Five
+    One, Two, Three, Four, Five, Six
   }
 
   public static final class DriveConstants {
@@ -114,7 +115,7 @@ public final class Constants {
     public static final boolean kTurningEncoderInverted = false;
     // Calculations required for driving motor conversion factors and feed forward
     public static final double kDrivingMotorFreeSpeedRps = NeoMotorConstants.kFreeSpeedRpm / 60;
-    public static final double kWheelDiameterMeters = 0.1016;
+    public static final double kWheelDiameterMeters = 0.0889;
     public static final double kWheelCircumferenceMeters = kWheelDiameterMeters * Math.PI;
     // 45 teeth on the wheel's bevel gear, 22 teeth on the first-stage spur gear, 15
     // teeth on the bevel pinion

@@ -110,7 +110,7 @@ public class RobotContainer {
                                 // Add kinematics to ensure max speed is actually obeyed
                                 .setKinematics(DriveConstants.kDriveKinematics);
 
-                Trajectory backwardsTrajectory = TrajectoryGenerator.generateTrajectory(
+                Trajectory frontSpeakerTrajectory = TrajectoryGenerator.generateTrajectory(
                                 new Pose2d(0, 0, new Rotation2d(0)),
                                 List.of(),
                                 new Pose2d(1.5, 0, new Rotation2d(0)),
@@ -121,7 +121,7 @@ public class RobotContainer {
                 thetaController.enableContinuousInput(-Math.PI, Math.PI);
 
                 SwerveControllerCommand swerveControllerCommand = new SwerveControllerCommand(
-                                backwardsTrajectory,
+                                frontSpeakerTrajectory,
                                 m_robotDrive::getPose, // Functional interface to feed supplier
                                 DriveConstants.kDriveKinematics,
 
@@ -132,7 +132,7 @@ public class RobotContainer {
                                 m_robotDrive);
 
                 // Reset odometry to the starting pose of the trajectory.
-                m_robotDrive.resetOdometry(backwardsTrajectory.getInitialPose());
+                m_robotDrive.resetOdometry(frontSpeakerTrajectory.getInitialPose());
 
                 // Run path following command, then stop at the end.
                 return swerveControllerCommand.andThen(() -> m_robotDrive.drive(0, 0, 0, false, false));
@@ -144,17 +144,17 @@ public class RobotContainer {
                                 AutoConstants.kMaxAccelerationMetersPerSecondSquared)
                                 // Add kinematics to ensure max speed is actually obeyed
                                 .setKinematics(DriveConstants.kDriveKinematics);
-                Trajectory driveForwards = TrajectoryGenerator.generateTrajectory(
+                Trajectory leftSpeakerTrajectory = TrajectoryGenerator.generateTrajectory(
                                 new Pose2d(0, 0, new Rotation2d(0)),
-                                List.of(),
-                                new Pose2d(.5, -2.5, new Rotation2d(Math.toRadians(0))),
+                                List.of(new Translation2d(.75, 0), new Translation2d(1.5, -1), new Translation2d(2.25, -1)),
+                                new Pose2d(2.25, -2, new Rotation2d(Math.toRadians(0))),
                                 config); 
                 var thetaController = new ProfiledPIDController(
                                 AutoConstants.kPThetaController, 0, 0, AutoConstants.kThetaControllerConstraints);
                 thetaController.enableContinuousInput(-Math.PI, Math.PI);
 
                 SwerveControllerCommand swerveControllerCommand = new SwerveControllerCommand(
-                                driveForwards,
+                                leftSpeakerTrajectory,
                                 m_robotDrive::getPose, // Functional interface to feed supplier
                                 DriveConstants.kDriveKinematics,
 
@@ -165,7 +165,7 @@ public class RobotContainer {
                                 m_robotDrive::setModuleStates,
                                 m_robotDrive);
 
-                m_robotDrive.resetOdometry(driveForwards.getInitialPose());
+                m_robotDrive.resetOdometry(leftSpeakerTrajectory.getInitialPose());
 
                 // Run path following command, then stop at the end.
                 return swerveControllerCommand.andThen(() -> m_robotDrive.drive(0, 0, 0, true, false));
@@ -177,7 +177,7 @@ public class RobotContainer {
                                 AutoConstants.kMaxAccelerationMetersPerSecondSquared)
                                 // Add kinematics to ensure max speed is actually obeyed
                                 .setKinematics(DriveConstants.kDriveKinematics);
-                Trajectory leaveRightSpeaker = TrajectoryGenerator.generateTrajectory(
+                Trajectory rightSpeakerTrajectory = TrajectoryGenerator.generateTrajectory(
                                 new Pose2d(0, 0, new Rotation2d(0)),
                                 List.of(),
                                 new Pose2d(4.5, 0, new Rotation2d(Math.toRadians(0))),
@@ -187,7 +187,7 @@ public class RobotContainer {
                 thetaController.enableContinuousInput(-Math.PI, Math.PI);
 
                 SwerveControllerCommand swerveControllerCommand = new SwerveControllerCommand(
-                                leaveRightSpeaker,
+                                rightSpeakerTrajectory,
                                 m_robotDrive::getPose, // Functional interface to feed supplier
                                 DriveConstants.kDriveKinematics,
 
@@ -198,7 +198,74 @@ public class RobotContainer {
                                 m_robotDrive::setModuleStates,
                                 m_robotDrive);
 
-                m_robotDrive.resetOdometry(leaveRightSpeaker.getInitialPose());
+                m_robotDrive.resetOdometry(rightSpeakerTrajectory.getInitialPose());
+
+                // Run path following command, then stop at the end.
+                return swerveControllerCommand.andThen(() -> m_robotDrive.drive(0, 0, 0, true, false));
+
+        }
+
+        public Command getGoForwardsCommand() {
+                TrajectoryConfig config = new TrajectoryConfig(
+                                AutoConstants.kMaxSpeedMetersPerSecond,
+                                AutoConstants.kMaxAccelerationMetersPerSecondSquared)
+                                // Add kinematics to ensure max speed is actually obeyed
+                                .setKinematics(DriveConstants.kDriveKinematics);
+                Trajectory forwardsTrajectory = TrajectoryGenerator.generateTrajectory(
+                                new Pose2d(0, 0, new Rotation2d(0)),
+                                List.of(),
+                                new Pose2d(2, 0, new Rotation2d(Math.toRadians(0))),
+                                config); 
+                var thetaController = new ProfiledPIDController(
+                                AutoConstants.kPThetaController, 0, 0, AutoConstants.kThetaControllerConstraints);
+                thetaController.enableContinuousInput(-Math.PI, Math.PI);
+
+                SwerveControllerCommand swerveControllerCommand = new SwerveControllerCommand(
+                                forwardsTrajectory,
+                                m_robotDrive::getPose, // Functional interface to feed supplier
+                                DriveConstants.kDriveKinematics,
+
+                                // Position controllers
+                                new PIDController(AutoConstants.kPXController, 0, 0),
+                                new PIDController(AutoConstants.kPYController, 0, 0),
+                                thetaController,
+                                m_robotDrive::setModuleStates,
+                                m_robotDrive);
+
+                m_robotDrive.resetOdometry(forwardsTrajectory.getInitialPose());
+
+                // Run path following command, then stop at the end.
+                return swerveControllerCommand.andThen(() -> m_robotDrive.drive(0, 0, 0, true, false));
+
+        }
+               public Command getGoBackwardsCommand() {
+                TrajectoryConfig config = new TrajectoryConfig(
+                                AutoConstants.kMaxSpeedMetersPerSecond,
+                                AutoConstants.kMaxAccelerationMetersPerSecondSquared)
+                                // Add kinematics to ensure max speed is actually obeyed
+                                .setKinematics(DriveConstants.kDriveKinematics);
+                Trajectory backwardsTrajectory = TrajectoryGenerator.generateTrajectory(
+                                new Pose2d(0, 0, new Rotation2d(0)),
+                                List.of(),
+                                new Pose2d(-2, 0, new Rotation2d(Math.toRadians(0))),
+                                config); 
+                var thetaController = new ProfiledPIDController(
+                                AutoConstants.kPThetaController, 0, 0, AutoConstants.kThetaControllerConstraints);
+                thetaController.enableContinuousInput(-Math.PI, Math.PI);
+
+                SwerveControllerCommand swerveControllerCommand = new SwerveControllerCommand(
+                                backwardsTrajectory,
+                                m_robotDrive::getPose, // Functional interface to feed supplier
+                                DriveConstants.kDriveKinematics,
+
+                                // Position controllers
+                                new PIDController(AutoConstants.kPXController, 0, 0),
+                                new PIDController(AutoConstants.kPYController, 0, 0),
+                                thetaController,
+                                m_robotDrive::setModuleStates,
+                                m_robotDrive);
+
+                m_robotDrive.resetOdometry(backwardsTrajectory.getInitialPose());
 
                 // Run path following command, then stop at the end.
                 return swerveControllerCommand.andThen(() -> m_robotDrive.drive(0, 0, 0, true, false));
