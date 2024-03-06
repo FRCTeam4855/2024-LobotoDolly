@@ -20,6 +20,7 @@ import edu.wpi.first.wpilibj.XboxController;
 
 import frc.robot.Constants.ArmSetpoint;
 import frc.robot.commands.ArmSetpointCommand;
+import frc.robot.commands.ClimberControlCommand;
 import frc.robot.commands.FlywheelLaunchCommand;
 import frc.robot.commands.IntakePickupCommand;
 import frc.robot.commands.IntakeDeliverCommand;
@@ -31,7 +32,9 @@ import frc.robot.subsystems.ArmPivot;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.FlywheelSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.filter.Debouncer;
+import frc.robot.subsystems.ClimberSubsystem;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -68,6 +71,7 @@ public class Robot extends TimedRobot {
   public SendableChooser<String> m_chooser = new SendableChooser<>();
   ArmSetpoint currentSetpoint;
   ArmPivot armPivot = new ArmPivot();
+  ClimberSubsystem ClimberControl = new ClimberSubsystem();
 
   @Override
   public void robotInit() {
@@ -321,6 +325,12 @@ public class Robot extends TimedRobot {
       // .andThen(new IntakeStopCommand(m_robotContainer.intakeSubsystem)));
       currentSetpoint = ArmSetpoint.Four;
     }
+
+      CommandScheduler.getInstance().schedule(
+          (new ClimberControlCommand(ClimberControl, (MathUtil.applyDeadband(m_robotContainer.m_operatorController.getRawAxis(1),kClimberDeadband)))));
+
+  
+    
     // if (m_robotContainer.m_operatorController.getLeftTriggerAxis() > .5) {
     // //Controls the flywheel
     // if(!m_robotContainer.flywheelSubsystem.flywheelRunning) {

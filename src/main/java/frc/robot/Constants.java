@@ -40,6 +40,8 @@ public final class Constants {
   public static final int kIntakeStop_Back = 7;
   public static final int kIntakeDrop_RB = 6;
   public static final int kFlywheelStart_Start = 8;
+   public static final double kClimberDeadband = 0.2;
+  
 
   public static final double kArmSetpoint1 = .05; // Intake
   public static final double kArmSetpoint2 = 15; // Speaker
@@ -96,7 +98,7 @@ public final class Constants {
     public static final int kFlyWheelTopCanId = 11;
     public static final int kFlyWheelBottomCanId = 12;
 
-    public static final int kIntakeCanId = 13;
+    public static final int kIntakeCanId = 10;
 
     public static final boolean kGyroReversed = true;
   }

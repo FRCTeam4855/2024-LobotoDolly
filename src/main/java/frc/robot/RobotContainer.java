@@ -30,6 +30,7 @@ import frc.robot.commands.IntakeStopCommand;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.FlywheelSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.ClimberSubsystem;
 
 /*
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -49,6 +50,7 @@ public class RobotContainer {
 
         IntakeSubsystem intakeSubsystem;
         FlywheelSubsystem flywheelSubsystem;
+        ClimberSubsystem ClimberSubsystem;
         public boolean fieldOriented = false;
 
         /*
@@ -60,6 +62,8 @@ public class RobotContainer {
 
                 intakeSubsystem = new IntakeSubsystem();
                 flywheelSubsystem = new FlywheelSubsystem();
+                
+                //ClimberSubsystem = new ClimberSubsystem();
 
                 // Configure default commands
                 m_robotDrive.setDefaultCommand(
