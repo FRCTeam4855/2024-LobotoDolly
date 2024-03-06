@@ -72,6 +72,7 @@ public class Robot extends TimedRobot {
   ArmSetpoint currentSetpoint;
   ArmPivot armPivot = new ArmPivot();
   ClimberSubsystem ClimberControl = new ClimberSubsystem();
+  private double POVvalue;
 
   @Override
   public void robotInit() {
@@ -327,7 +328,7 @@ public class Robot extends TimedRobot {
     }
 
       CommandScheduler.getInstance().schedule(
-          (new ClimberControlCommand(ClimberControl, (MathUtil.applyDeadband(m_robotContainer.m_operatorController.getRawAxis(1),kClimberDeadband)))));
+          (new ClimberControlCommand(ClimberControl, (MathUtil.applyDeadband(m_robotContainer.m_operatorController.getRawAxis(1), kClimberDeadband)))));
 
   
     
@@ -362,6 +363,9 @@ public class Robot extends TimedRobot {
       // } else {
       // flywheelSubsystem.flywheelRunning = false;
     }
+    POVvalue = m_robotContainer.m_operatorController.getPOV();
+    
+    SmartDashboard.putNumber("POV value", POVvalue);
   }
 
   @Override
