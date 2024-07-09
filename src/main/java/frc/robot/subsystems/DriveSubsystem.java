@@ -76,6 +76,7 @@ public class DriveSubsystem extends SubsystemBase {
   /** Creates a new DriveSubsystem. */
   public DriveSubsystem() {
     SmartDashboard.putData("Field", m_field); //4855
+    m_gyro.reset();
   }
 
   /**
@@ -219,6 +220,30 @@ public class DriveSubsystem extends SubsystemBase {
     m_rearRight.setDesiredState(new SwerveModuleState(0, Rotation2d.fromDegrees(45)));
   }
 
+    public void strafeLeft() {
+    m_frontLeft.setDesiredState(new SwerveModuleState(.5, Rotation2d.fromDegrees(90)));
+    m_frontRight.setDesiredState(new SwerveModuleState(.5, Rotation2d.fromDegrees(90)));
+    m_rearLeft.setDesiredState(new SwerveModuleState(.5, Rotation2d.fromDegrees(90)));
+    m_rearRight.setDesiredState(new SwerveModuleState(.5, Rotation2d.fromDegrees(90)));
+  }
+      public void strafeRight() {
+    m_frontLeft.setDesiredState(new SwerveModuleState(.5, Rotation2d.fromDegrees(-90)));
+    m_frontRight.setDesiredState(new SwerveModuleState(.5, Rotation2d.fromDegrees(-90)));
+    m_rearLeft.setDesiredState(new SwerveModuleState(.5, Rotation2d.fromDegrees(-90)));
+    m_rearRight.setDesiredState(new SwerveModuleState(.5, Rotation2d.fromDegrees(-90)));
+  }
+public void rotateLeft() {
+    m_frontLeft.setDesiredState(new SwerveModuleState(-.5, Rotation2d.fromDegrees(-45)));
+    m_frontRight.setDesiredState(new SwerveModuleState(.5, Rotation2d.fromDegrees(45)));
+    m_rearLeft.setDesiredState(new SwerveModuleState(-.5, Rotation2d.fromDegrees(45)));
+    m_rearRight.setDesiredState(new SwerveModuleState(.5, Rotation2d.fromDegrees(-45)));
+  }
+  public void rotateRight() {
+    m_frontLeft.setDesiredState(new SwerveModuleState(.5, Rotation2d.fromDegrees(-45)));
+    m_frontRight.setDesiredState(new SwerveModuleState(-.5, Rotation2d.fromDegrees(45)));
+    m_rearLeft.setDesiredState(new SwerveModuleState(.5, Rotation2d.fromDegrees(45)));
+    m_rearRight.setDesiredState(new SwerveModuleState(-.5, Rotation2d.fromDegrees(-45)));
+  }
   /**
    * Sets the swerve ModuleStates.
    *

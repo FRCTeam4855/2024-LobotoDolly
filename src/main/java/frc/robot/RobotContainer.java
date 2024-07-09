@@ -33,12 +33,18 @@ import frc.robot.subsystems.DriveSubsystem;
  * (including subsystems, commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
-  // The robot's subsystems
+
+// The robot's subsystems
   private final DriveSubsystem m_robotDrive = new DriveSubsystem();
 
   // The driver's controller
   XboxController m_driverController = new XboxController(OIConstants.kDriverControllerPort);
 
+  private static final String kAuton1 = "1. Straight Ahead";
+  private static final String kAuton2 = "2. S Pattern";
+  private static final String kAuton3 = "3. S with a twist";
+  private static final String kAuton4 = "4. Show Off";
+  private static final String kAuton5 = "5. Rotating Fish";
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
@@ -54,7 +60,7 @@ public class RobotContainer {
             () -> m_robotDrive.drive(
                 -MathUtil.applyDeadband(m_driverController.getLeftY(), OIConstants.kDriveDeadband),
                 -MathUtil.applyDeadband(m_driverController.getLeftX(), OIConstants.kDriveDeadband),
-                -MathUtil.applyDeadband(m_driverController.getRightX(), OIConstants.kDriveDeadband),
+                -MathUtil.applyDeadband(m_driverController.getRightX(), OIConstants.kDriveDeadband) * OIConstants.kRotateScale,
                 true, true),
             m_robotDrive));
   }
@@ -69,7 +75,7 @@ public class RobotContainer {
    * {@link JoystickButton}.
    */
   private void configureButtonBindings() {
-    new JoystickButton(m_driverController, Button.kRightBumper.value)
+    new JoystickButton(m_driverController, Button.kX.value)
         .whileTrue(new RunCommand(
             () -> m_robotDrive.setX(),
             m_robotDrive));
@@ -78,14 +84,33 @@ public class RobotContainer {
         .whileTrue(new RunCommand(
             () -> m_robotDrive.zeroHeading(),
             m_robotDrive));
-  }
+
+    new JoystickButton(m_driverController, Button.kLeftBumper.value)
+        .whileTrue(new RunCommand(
+            () -> m_robotDrive.strafeLeft(),
+             m_robotDrive)); //4855
+  
+    new JoystickButton(m_driverController, Button.kRightBumper.value)
+        .whileTrue(new RunCommand(
+            () -> m_robotDrive.strafeRight(),
+             m_robotDrive)); //4855
+             
+    new JoystickButton(m_driverController, Button.kBack.value)
+        .whileTrue(new RunCommand(
+            () -> m_robotDrive.rotateLeft(),
+             m_robotDrive)); //4855
+     new JoystickButton(m_driverController, Button.kStart.value)
+        .whileTrue(new RunCommand(
+            () -> m_robotDrive.rotateRight(),
+             m_robotDrive)); //4855
+  } 
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
    *
    * @return the command to run in autonomous
    */
-  public Command getAutonomousCommand() {
+  public Command getAutonomousCommand(String routineString) {
     // Create config for trajectory
     TrajectoryConfig config = new TrajectoryConfig(
         AutoConstants.kMaxSpeedMetersPerSecond,
@@ -93,27 +118,98 @@ public class RobotContainer {
         // Add kinematics to ensure max speed is actually obeyed
         .setKinematics(DriveConstants.kDriveKinematics);
 
-    // An example trajectory to follow. All units in meters.
-    Trajectory exampleTrajectory = TrajectoryGenerator.generateTrajectory(
-        // Start at the origin facing the +X direction
-        /*new Pose2d(0, 0, new Rotation2d(0)),
-        // Pass through these two interior waypoints, making an 's' curve path
-        List.of(new Translation2d(1, 1), new Translation2d(2, -1)),
-        // End 3 meters straight ahead of where we started, facing forward
-        new Pose2d(3, 0, new Rotation2d(0)),*/ //4855
-        new Pose2d(0, 1, new Rotation2d(0)),
-        // Pass through these two interior waypoints, making an 's' curve path
-        List.of(new Translation2d(1, 2), new Translation2d(2, 0)),
-        // End 3 meters straight ahead of where we started, facing forward
-        new Pose2d(3, 1, new Rotation2d(Math.PI/2)),
-        config);
-
     var thetaController = new ProfiledPIDController(
         AutoConstants.kPThetaController, 0, 0, AutoConstants.kThetaControllerConstraints);
-    thetaController.enableContinuousInput(-Math.PI, Math.PI);
+        thetaController.enableContinuousInput(-Math.PI, Math.PI);
 
-    SwerveControllerCommand swerveControllerCommand = new SwerveControllerCommand(
-        exampleTrajectory,
+    Trajectory k_trajectory = TrajectoryGenerator.generateTrajectory(new Pose2d(0, 1,
+                new Rotation2d(0)),List.of(),new Pose2d(3, 1, new Rotation2d(0)),config);  //This clears a compiler error, but is overwritten later
+    SwerveControllerCommand swerveControllerCommand = new SwerveControllerCommand(k_trajectory,
+                m_robotDrive::getPose,
+                // Functional interface to feed supplier
+                DriveConstants.kDriveKinematics,
+
+                // Position controllers
+                new PIDController(AutoConstants.kPXController, 0, 0),
+                new PIDController(AutoConstants.kPYController, 0, 0),
+                thetaController,
+                m_robotDrive::setModuleStates,
+                m_robotDrive);  //This clears a compiler error, but is overwritten later
+
+    switch (routineString){
+        case kAuton1:
+            k_trajectory = TrajectoryGenerator.generateTrajectory(new Pose2d(0, 1,
+                new Rotation2d(0)),List.of(),new Pose2d(3, 1, new Rotation2d(0)),config);
+
+               break;
+        case kAuton2:
+            k_trajectory = TrajectoryGenerator.generateTrajectory(new Pose2d(0, 1,
+                new Rotation2d(0)),List.of(new Translation2d(1, 2), new Translation2d(2, 0)),
+                new Pose2d(3, 1, new Rotation2d(0)),config);
+
+            break;
+        case kAuton3:
+            k_trajectory = TrajectoryGenerator.generateTrajectory(new Pose2d(0, 1,
+                new Rotation2d(0)),List.of(new Translation2d(1, 2), new Translation2d(2, 0)),
+                new Pose2d(3, 1, new Rotation2d(Math.toRadians(90))),config);
+          
+            break; 
+        case kAuton4:
+            k_trajectory = TrajectoryGenerator.generateTrajectory(new Pose2d(0, 1,
+                new Rotation2d(0)),List.of(),new Pose2d(1, 2, new Rotation2d(Math.toRadians(90))),config);
+                
+            break;
+        case kAuton5:
+            k_trajectory = TrajectoryGenerator.generateTrajectory(new Pose2d(2, 1,
+                new Rotation2d(0)),List.of(new Translation2d(-2,0)), new Pose2d(4, 1,
+                new Rotation2d(Math.toRadians(180))),config);
+
+            //m_robotDrive.resetOdometry(k_trajectory.getInitialPose());
+            //return swerveControllerCommand.andThen(() -> m_robotDrive.drive(0, 0, 0, false, false));
+            //swerveControllerCommand.execute();
+
+            /*k_trajectory = TrajectoryGenerator.generateTrajectory(new Pose2d(1, 2,
+                new Rotation2d(0)),List.of(),new Pose2d(2, 0, new Rotation2d(0)),config);
+            
+            swerveControllerCommand = new SwerveControllerCommand(
+                k_trajectory,
+                m_robotDrive::getPose, // Functional interface to feed supplier
+                DriveConstants.kDriveKinematics,
+
+                // Position controllers
+                new PIDController(AutoConstants.kPXController, 0, 0),
+                new PIDController(AutoConstants.kPYController, 0, 0),
+                thetaController,
+                m_robotDrive::setModuleStates,
+                m_robotDrive);
+
+            m_robotDrive.resetOdometry(k_trajectory.getInitialPose());
+
+            swerveControllerCommand.execute();
+
+            k_trajectory = TrajectoryGenerator.generateTrajectory(new Pose2d(2, 0,
+                new Rotation2d(0)),List.of(),new Pose2d(3, 1, new Rotation2d(0)),config);*/
+            
+            break; 
+    }
+    // An example trajectory to follow. All units in meters.
+    //Trajectory exampleTrajectory = TrajectoryGenerator.generateTrajectory(
+    //  // Start at the origin facing the +X direction
+    //  /*new Pose2d(0, 0, new Rotation2d(0)),
+    //  // Pass through these two interior waypoints, making an 's' curve path
+    //  List.of(new Translation2d(1, 1), new Translation2d(2, -1)),
+    //  // End 3 meters straight ahead of where we started, facing forward
+    //  new Pose2d(3, 0, new Rotation2d(0)),*/ //4855
+    //  new Pose2d(0, 1, new Rotation2d(0)),
+    //  // Pass through these two interior waypoints, making an 's' curve path
+    //  List.of(new Translation2d(1, 2), new Translation2d(2, 0)),
+    //  // End 3 meters straight ahead of where we started, facing forward
+    //  new Pose2d(3, 1, new Rotation2d(Math.PI/2)),
+    //  config);
+
+    
+    swerveControllerCommand = new SwerveControllerCommand(
+        k_trajectory,
         m_robotDrive::getPose, // Functional interface to feed supplier
         DriveConstants.kDriveKinematics,
 
@@ -125,7 +221,7 @@ public class RobotContainer {
         m_robotDrive);
 
     // Reset odometry to the starting pose of the trajectory.
-    m_robotDrive.resetOdometry(exampleTrajectory.getInitialPose());
+    m_robotDrive.resetOdometry(k_trajectory.getInitialPose());
 
     // Run path following command, then stop at the end.
     return swerveControllerCommand.andThen(() -> m_robotDrive.drive(0, 0, 0, false, false));

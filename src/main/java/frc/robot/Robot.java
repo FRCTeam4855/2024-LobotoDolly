@@ -5,9 +5,13 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+//import frc.robot.Constants.OIConstants;
+
+
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -16,10 +20,19 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
  * project.
  */
 public class Robot extends TimedRobot {
+  
   private Command m_autonomousCommand;
 
   private RobotContainer m_robotContainer;
 
+  private String m_autoSelectedString;
+  public SendableChooser<String> m_chooser = new SendableChooser<>();
+
+  private static final String kAuton1 = "1. Straight Ahead";
+  private static final String kAuton2 = "2. S Pattern";
+  private static final String kAuton3 = "3. S with a twist";
+  private static final String kAuton4 = "4. Show Off";
+  private static final String kAuton5 = "5. Rotating Fish";
   /**
    * This function is run when the robot is first started up and should be used for any
    * initialization code.
@@ -29,6 +42,13 @@ public class Robot extends TimedRobot {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
+
+    m_chooser.setDefaultOption("1. Straight Ahead", kAuton1);
+    m_chooser.addOption("2. S Pattern", kAuton2);
+    m_chooser.addOption("3. S with a twist", kAuton3);
+    m_chooser.addOption("4. Show Off", kAuton4);
+    m_chooser.addOption("5. Rotating Fish", kAuton5);
+    SmartDashboard.putData(m_chooser); // displays the auton options in shuffleboard, put in init block
   }
 
   /**
@@ -57,14 +77,21 @@ public class Robot extends TimedRobot {
   /** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
   @Override
   public void autonomousInit() {
-    m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
-    /*
-     * String autoSelected = SmartDashboard.getString("Auto Selector",
-     * "Default"); switch(autoSelected) { case "My Auto": autonomousCommand
-     * = new MyAutoCommand(); break; case "Default Auto": default:
-     * autonomousCommand = new ExampleCommand(); break; }
-     */
+    m_autoSelectedString=m_chooser.getSelected();
+
+    SmartDashboard.putString("Current Auton:", m_autoSelectedString);
+
+    m_autonomousCommand = m_robotContainer.getAutonomousCommand(m_autoSelectedString);
+    /*switch(autoSelected) {
+      case "My Auto":
+        autonomousCommand = new MyAutoCommand();
+        break;
+      case "Default Auto":
+      default:
+        autonomousCommand = new ExampleCommand();
+        break;
+    }*/
 
     // schedule the autonomous command (example)
     if (m_autonomousCommand != null) {
@@ -73,7 +100,8 @@ public class Robot extends TimedRobot {
   }
 
   /** This function is called periodically during autonomous. */
-  @Override  public void autonomousPeriodic() {}
+  @Override  public void autonomousPeriodic() {
+  }
 
   @Override
   public void teleopInit() {
