@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-//import frc.robot.Constants.OIConstants;
+import frc.robot.Constants.OIConstants;
 
 
 
@@ -28,11 +28,6 @@ public class Robot extends TimedRobot {
   private String m_autoSelectedString;
   public SendableChooser<String> m_chooser = new SendableChooser<>();
 
-  private static final String kAuton1 = "1. Straight Ahead";
-  private static final String kAuton2 = "2. S Pattern";
-  private static final String kAuton3 = "3. S with a twist";
-  private static final String kAuton4 = "4. Show Off";
-  private static final String kAuton5 = "5. Rotating Fish";
   /**
    * This function is run when the robot is first started up and should be used for any
    * initialization code.
@@ -43,14 +38,17 @@ public class Robot extends TimedRobot {
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
 
-    m_chooser.setDefaultOption("1. Straight Ahead", kAuton1);
-    m_chooser.addOption("2. S Pattern", kAuton2);
-    m_chooser.addOption("3. S with a twist", kAuton3);
-    m_chooser.addOption("4. Show Off", kAuton4);
-    m_chooser.addOption("5. Rotating Fish", kAuton5);
-    SmartDashboard.putData(m_chooser); // displays the auton options in shuffleboard, put in init block
-  }
-
+    m_chooser.setDefaultOption("1. Straight Ahead", OIConstants.kAuton1);
+    m_chooser.addOption("2. S Pattern", OIConstants.kAuton2);
+    m_chooser.addOption("3. S with a twist", OIConstants.kAuton3);
+    m_chooser.addOption("4. Show Off", OIConstants.kAuton4);
+    m_chooser.addOption("5. Rotating Fish", OIConstants.kAuton5);
+    m_chooser.addOption("6. Maryland Hat", OIConstants.kAuton6);
+    m_chooser.addOption("7. Trash", OIConstants.kAuton7);
+    m_chooser.addOption("8. Rat", OIConstants.kAuton8);
+    m_chooser.addOption("9. G>^v", OIConstants.kAuton9);
+   SmartDashboard.putData(m_chooser);
+    }
   /**
    * This function is called every 20 ms, no matter the mode. Use this for items like diagnostics
    * that you want ran during disabled, autonomous, teleoperated and test.

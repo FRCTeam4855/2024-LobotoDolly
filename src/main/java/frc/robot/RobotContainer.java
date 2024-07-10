@@ -40,11 +40,7 @@ public class RobotContainer {
   // The driver's controller
   XboxController m_driverController = new XboxController(OIConstants.kDriverControllerPort);
 
-  private static final String kAuton1 = "1. Straight Ahead";
-  private static final String kAuton2 = "2. S Pattern";
-  private static final String kAuton3 = "3. S with a twist";
-  private static final String kAuton4 = "4. Show Off";
-  private static final String kAuton5 = "5. Rotating Fish";
+;
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
@@ -122,9 +118,9 @@ public class RobotContainer {
         AutoConstants.kPThetaController, 0, 0, AutoConstants.kThetaControllerConstraints);
         thetaController.enableContinuousInput(-Math.PI, Math.PI);
 
-    Trajectory k_trajectory = TrajectoryGenerator.generateTrajectory(new Pose2d(0, 1,
-                new Rotation2d(0)),List.of(),new Pose2d(3, 1, new Rotation2d(0)),config);  //This clears a compiler error, but is overwritten later
-    SwerveControllerCommand swerveControllerCommand = new SwerveControllerCommand(k_trajectory,
+    Trajectory k_trajectory;  /* = TrajectoryGenerator.generateTrajectory(new Pose2d(0, 1,
+                new Rotation2d(0)),List.of(),new Pose2d(3, 1, new Rotation2d(0)),config);  //This clears a compiler error, but is overwritten later*/
+    SwerveControllerCommand swerveControllerCommand; /* = new SwerveControllerCommand(k_trajectory,
                 m_robotDrive::getPose,
                 // Functional interface to feed supplier
                 DriveConstants.kDriveKinematics,
@@ -134,36 +130,60 @@ public class RobotContainer {
                 new PIDController(AutoConstants.kPYController, 0, 0),
                 thetaController,
                 m_robotDrive::setModuleStates,
-                m_robotDrive);  //This clears a compiler error, but is overwritten later
+                m_robotDrive);  //This clears a compiler error, but is overwritten later*/
 
     switch (routineString){
-        case kAuton1:
+        case OIConstants.kAuton1:
             k_trajectory = TrajectoryGenerator.generateTrajectory(new Pose2d(0, 1,
                 new Rotation2d(0)),List.of(),new Pose2d(3, 1, new Rotation2d(0)),config);
 
                break;
-        case kAuton2:
+        case OIConstants.kAuton2:
             k_trajectory = TrajectoryGenerator.generateTrajectory(new Pose2d(0, 1,
                 new Rotation2d(0)),List.of(new Translation2d(1, 2), new Translation2d(2, 0)),
                 new Pose2d(3, 1, new Rotation2d(0)),config);
 
             break;
-        case kAuton3:
+        case OIConstants.kAuton3:
             k_trajectory = TrajectoryGenerator.generateTrajectory(new Pose2d(0, 1,
                 new Rotation2d(0)),List.of(new Translation2d(1, 2), new Translation2d(2, 0)),
                 new Pose2d(3, 1, new Rotation2d(Math.toRadians(90))),config);
           
             break; 
-        case kAuton4:
+        case OIConstants.kAuton4:
             k_trajectory = TrajectoryGenerator.generateTrajectory(new Pose2d(0, 1,
                 new Rotation2d(0)),List.of(),new Pose2d(1, 2, new Rotation2d(Math.toRadians(90))),config);
                 
             break;
-        case kAuton5:
+        case OIConstants.kAuton5:
             k_trajectory = TrajectoryGenerator.generateTrajectory(new Pose2d(2, 1,
                 new Rotation2d(0)),List.of(new Translation2d(-2,0)), new Pose2d(4, 1,
                 new Rotation2d(Math.toRadians(180))),config);
-
+             break;
+        case OIConstants.kAuton6:
+            k_trajectory = TrajectoryGenerator.generateTrajectory(new Pose2d(0, 1,
+                new Rotation2d(0)),List.of(new Translation2d(1.5,.5)), new Pose2d(2.75, 1.4,
+                new Rotation2d(Math.toRadians(0))),config);
+            break;
+        case OIConstants.kAuton7:
+            k_trajectory = TrajectoryGenerator.generateTrajectory(new Pose2d(0, 0,
+                new Rotation2d(0)),List.of(new Translation2d(-1,0 )), new Pose2d(0, -2,
+                new Rotation2d(Math.toRadians(-45))),config);
+            break;
+        case OIConstants.kAuton8:
+            k_trajectory = TrajectoryGenerator.generateTrajectory(new Pose2d(0, 0,
+                new Rotation2d(0)),List.of(new Translation2d(-2,0 )), new Pose2d(-3, -1,
+                new Rotation2d(Math.toRadians(-135))),config);
+            break;
+        case OIConstants.kAuton9:
+            k_trajectory = TrajectoryGenerator.generateTrajectory(new Pose2d(0, 0,
+                new Rotation2d(0)),List.of(new Translation2d(-2,0 ),new Translation2d(-3, -1.25)), new Pose2d(-1, -3,
+                new Rotation2d(Math.toRadians(-45))),config);
+            break;
+        default:
+             k_trajectory = TrajectoryGenerator.generateTrajectory(new Pose2d(0, 0,
+                new Rotation2d(0)),List.of(), new Pose2d(0, 0,
+                new Rotation2d(Math.toRadians(0))),config);
             //m_robotDrive.resetOdometry(k_trajectory.getInitialPose());
             //return swerveControllerCommand.andThen(() -> m_robotDrive.drive(0, 0, 0, false, false));
             //swerveControllerCommand.execute();
@@ -189,9 +209,8 @@ public class RobotContainer {
 
             k_trajectory = TrajectoryGenerator.generateTrajectory(new Pose2d(2, 0,
                 new Rotation2d(0)),List.of(),new Pose2d(3, 1, new Rotation2d(0)),config);*/
-            
-            break; 
     }
+
     // An example trajectory to follow. All units in meters.
     //Trajectory exampleTrajectory = TrajectoryGenerator.generateTrajectory(
     //  // Start at the origin facing the +X direction
@@ -219,6 +238,7 @@ public class RobotContainer {
         thetaController,
         m_robotDrive::setModuleStates,
         m_robotDrive);
+
 
     // Reset odometry to the starting pose of the trajectory.
     m_robotDrive.resetOdometry(k_trajectory.getInitialPose());
