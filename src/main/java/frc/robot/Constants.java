@@ -62,6 +62,8 @@ public final class Constants {
     public static final int kFrontRightTurningCanId = 8;
     public static final int kRearRightTurningCanId = 6;
 
+    public static final double kDriveRadius = Units.inchesToMeters(kTrackWidth*.5*Math.sqrt(2));
+
     public static final boolean kGyroReversed = true;
   }
 
