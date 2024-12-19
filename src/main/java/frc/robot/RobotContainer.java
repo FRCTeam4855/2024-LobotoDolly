@@ -18,7 +18,9 @@ import edu.wpi.first.wpilibj.XboxController.Button;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.OIConstants;
+import frc.robot.Constants.LightsConstants;
 import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.LightsSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
@@ -35,10 +37,13 @@ public class RobotContainer {
 
 // The robot's subsystems
   private final DriveSubsystem m_robotDrive = new DriveSubsystem();
+  private final LightsSubsystem m_lights = new LightsSubsystem();
 
   // The driver's controller
-  XboxController m_driverController = new XboxController(OIConstants.kDriverControllerPort);
+  XboxController m_driverController0 = new XboxController(OIConstants.kDriverControllerPort0);
 
+  // The driver's controller
+  XboxController m_driverController1 = new XboxController(OIConstants.kDriverControllerPort1);
 ;
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -53,9 +58,9 @@ public class RobotContainer {
         // Turning is controlled by the X axis of the right stick.
         new RunCommand(
             () -> m_robotDrive.drive(
-                -MathUtil.applyDeadband(m_driverController.getLeftY(), OIConstants.kDriveDeadband),
-                -MathUtil.applyDeadband(m_driverController.getLeftX(), OIConstants.kDriveDeadband),
-                -MathUtil.applyDeadband(m_driverController.getRightX(), OIConstants.kDriveDeadband) * OIConstants.kRotateScale,
+                -MathUtil.applyDeadband(m_driverController0.getLeftY(), OIConstants.kDriveDeadband),
+                -MathUtil.applyDeadband(m_driverController0.getLeftX(), OIConstants.kDriveDeadband),
+                -MathUtil.applyDeadband(m_driverController0.getRightX(), OIConstants.kDriveDeadband) * OIConstants.kRotateScale,
                 true, true),
             m_robotDrive));
   }
@@ -70,34 +75,50 @@ public class RobotContainer {
    * {@link JoystickButton}.
    */
   private void configureButtonBindings() {
-    new JoystickButton(m_driverController, Button.kX.value)
+    new JoystickButton(m_driverController0, Button.kX.value)
         .whileTrue(new RunCommand(
             () -> m_robotDrive.setX(),
             m_robotDrive));
 
-    new JoystickButton(m_driverController, Button.kB.value)  //4855
+    new JoystickButton(m_driverController0, Button.kB.value)  //4855
         .whileTrue(new RunCommand(
             () -> m_robotDrive.zeroHeading(),
             m_robotDrive));
 
-    new JoystickButton(m_driverController, Button.kLeftBumper.value)
+    new JoystickButton(m_driverController0, Button.kLeftBumper.value)
         .whileTrue(new RunCommand(
             () -> m_robotDrive.strafeLeft(),
              m_robotDrive)); //4855
   
-    new JoystickButton(m_driverController, Button.kRightBumper.value)
+    new JoystickButton(m_driverController0, Button.kRightBumper.value)
         .whileTrue(new RunCommand(
             () -> m_robotDrive.strafeRight(),
              m_robotDrive)); //4855
              
-    new JoystickButton(m_driverController, Button.kBack.value)
+    new JoystickButton(m_driverController0, Button.kBack.value)
         .whileTrue(new RunCommand(
             () -> m_robotDrive.rotateLeft(),
              m_robotDrive)); //4855
-     new JoystickButton(m_driverController, Button.kStart.value)
+     new JoystickButton(m_driverController0, Button.kStart.value)
         .whileTrue(new RunCommand(
             () -> m_robotDrive.rotateRight(),
              m_robotDrive)); //4855
+    new JoystickButton(m_driverController1, Button.kA.value)
+        .whileTrue(new RunCommand(
+            () -> m_lights.setLEDs(LightsConstants.GREEN),
+             m_lights));
+    new JoystickButton(m_driverController1, Button.kX.value)
+        .whileTrue(new RunCommand(
+            () -> m_lights.setLEDs(LightsConstants.RED),
+             m_lights));
+    new JoystickButton(m_driverController1, Button.kB.value)
+        .whileTrue(new RunCommand(
+            () -> m_lights.setLEDs(LightsConstants.VIOLET),
+             m_lights));
+    new JoystickButton(m_driverController1, Button.kY.value)
+        .whileTrue(new RunCommand(
+            () -> m_lights.setLEDs(LightsConstants.GOLD),
+             m_lights));
   } 
 
   /**
